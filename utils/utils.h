@@ -8,6 +8,6 @@ void menu(){
 
 void seleccion(opcion);
 
-
+void menuRegistro(int opcion);
 
 #endif

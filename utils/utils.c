@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 int opcion;
 void menu(){
@@ -31,5 +32,18 @@ void seleccion(opcion){
     }else{
         printf("Selecciona una opcion valida");
     }
+    
+}
+
+
+void menuRegistro(opcion){
+
+    bool seguir = true;
+    printf("Seleccione una opcion: \n");
+
+    printf("1- Administrar datos policia. \n");
+    printf("2- Añadir crimen.\n");
+    printf("3- Visualizar estadisticas.\n");
+
     
 }
