@@ -8,6 +8,7 @@ void menu(){
 
 void seleccion(opcion);
 
+void printMenu();
 void menuRegistro(int opcion);
 
 #endif

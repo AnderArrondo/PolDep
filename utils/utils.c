@@ -35,15 +35,45 @@ void seleccion(opcion){
     
 }
 
+void printMenu(){
+
+    printf("1- Administrar datos policia.\n");
+    printf("2- Añadir crimen.\n");
+    printf("3- Visualizar estadisticas.\n");
+    printf("4- Salir.\n");
+}
 
 void menuRegistro(opcion){
 
     bool seguir = true;
     printf("Seleccione una opcion: \n");
 
-    printf("1- Administrar datos policia. \n");
-    printf("2- Añadir crimen.\n");
-    printf("3- Visualizar estadisticas.\n");
+    printMenu();
 
-    
+    scanf("%i", &opcion);
+
+    while(seguir){
+
+        if(opcion == 1){
+
+
+        }
+        else if(opcion == 2){
+
+
+        }
+        else if(opcion == 3){
+
+
+        }
+        else if(opcion == 4){
+
+            seguir = false;
+            break;
+        }
+
+        printMenu();
+        printf("Seleccione una opcion: \n");
+        scanf("%i", &opcion);
+    }
 }
