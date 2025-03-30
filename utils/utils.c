@@ -43,7 +43,7 @@ void printMenu(){
     printf("4- Salir.\n");
 }
 
-void menuRegistro(opcion){
+void menuRegistro(int *opcion){
 
     bool seguir = true;
     printf("Seleccione una opcion: \n");

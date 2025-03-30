@@ -8,7 +8,8 @@ void menu(){
 
 void seleccion(opcion);
 
+int *pOpcion;
 void printMenu();
-void menuRegistro(int opcion);
+void menuRegistro(pOpcion);
 
 #endif
