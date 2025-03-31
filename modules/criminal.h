@@ -9,7 +9,6 @@ typedef struct{
     int edad;
     char *genero;
     char *ciudadNacimiento;
-    Crimen *historialCrimenes;
     char *estadoCivil;
 } Criminal;
 
