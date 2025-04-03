@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include "crimen.h"
 
-int opcion;
-void menu(){
+
+void menu(int opcion){
     printf("----------------------\n");
     printf("ADMINISTRAR USUARIOS\n");
     printf("----------------------\n");
@@ -14,7 +14,7 @@ void menu(){
     printf("4. Modificar usuario\n");
     printf("----------------------\n");
     printf("Selecione una opcion: ");
-    scanf("%i", opcion);
+    scanf("%i", &opcion);
 }
 
 void seleccion(opcion){
