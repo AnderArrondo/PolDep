@@ -1,7 +1,7 @@
-#ifndef CRIMEN_H
-#define CRIMEN_H
 #include "criminal.h"
 
+#ifndef CRIMEN_H
+#define CRIMEN_H
 typedef struct{
 
     Criminal *autor;
