@@ -212,4 +212,14 @@ void opcionEstadisticas(int *opcionElegida) {
         printMenuEstadisticas();
         validarInputMenu(maxVal, opcionElegida, &isValid);
     }
+
+    if(*opcionElegida == 1) {
+        // Lista de criminales
+    } else if(*opcionElegida == 2) {
+        // Información sobre prisioneros
+    } else if(*opcionElegida == 3) {
+        // Información sobre delincuencia
+    } else {
+        // salir
+    }
 }
