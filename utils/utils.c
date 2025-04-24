@@ -5,6 +5,37 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ * Vacía el buffer de entrada
+ */
+void liberarBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+/**
+ * Pide un entrada al usuario:
+ * 
+ * - Si no es válida, borra la pantalla, e informa mediante un Warning.
+ * - Sino cambia el valor de isValid a true.
+ * 
+ * Finalmente, es libera la memoria del buffer.
+ */
+void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
+    printf("Elija una opción: ");
+    if(scanf("%i", opcionElegida) != 1) {
+        system("cls");
+        printf("\n[ WARNING ] Tipo de dato inválido:\nDebes introducir un entero entre [1, %i]\n\n", maxValue);
+    } else if(maxValue < *opcionElegida || *opcionElegida < 1) {
+        system("cls");
+        printf("\n[ WARNING ] Valor fuera de límites.\nDebes introducir un entero entre [1, %i]\n\n", maxValue);
+    } else {
+        printf("\n");
+        *isValid = true;
+    }
+    liberarBuffer();
+}
+
 void menu(int opcion){
     printf("----------------------\n");
     printf("ADMINISTRAR USUARIOS\n");
@@ -18,24 +49,24 @@ void menu(int opcion){
     scanf("%i", &opcion);
 }
 
-void seleccion(opcion){
-    int opciones={1,2,3,4};
+// void seleccion(opcion){
+//     int opciones={1,2,3,4};
     
-    if (opcion==opciones){
-        if (opcion==1){
+//     if (opcion==opciones){
+//         if (opcion==1){
             
-        }else if (opcion==2){
+//         }else if (opcion==2){
 
-        }else if (opcion==3){
+//         }else if (opcion==3){
 
-        }else if (opcion==4){
+//         }else if (opcion==4){
             
-        }
-    }else{
-        printf("Selecciona una opcion valida");
-    }
+//         }
+//     }else{
+//         printf("Selecciona una opcion valida");
+//     }
     
-}
+// }
 
 void printMenuRegistro(){
 
@@ -51,34 +82,34 @@ void menuRegistro(int *opcion){
     int maxValue = 4;
     printf("Seleccione una opcion: \n");
 
-    printMenu();
+    // printMenu();
 
-    scanf("%i", &opcion);
-    validarInputMenu(4, opcion, seguir);
+    scanf("%i", opcion);
+    validarInputMenu(maxValue, opcion, &seguir);
 
     while(seguir){
 
-        if(opcion == 1){
+        if(*opcion == 1){
 
 
         }
-        else if(opcion == 2){
+        else if(*opcion == 2){
 
 
         }
-        else if(opcion == 3){
+        else if(*opcion == 3){
 
 
         }
-        else if(opcion == 4){
+        else if(*opcion == 4){
 
             seguir = false;
             break;
         }
 
-        printMenu();
+        // printMenu();
         printf("Seleccione una opcion: \n");
-        scanf("%i", &opcion);
+        scanf("%i", opcion);
     }
     
 }
@@ -170,37 +201,6 @@ void printMenuEstadisticas() {
     printf("2) Información sobre prisiones\n");
     printf("3) Información sobre delincuencia\n");
     printf("4) Salir\n");
-}
-
-/**
- * Vacía el buffer de entrada
- */
-void liberarBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
-/**
- * Pide un entrada al usuario:
- * 
- * - Si no es válida, borra la pantalla, e informa mediante un Warning.
- * - Sino cambia el valor de isValid a true.
- * 
- * Finalmente, es libera la memoria del buffer.
- */
-void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
-    printf("Elija una opción: ");
-    if(scanf("%i", opcionElegida) != 1) {
-        system("cls");
-        printf("\n[ WARNING ] Tipo de dato inválido:\nDebes introducir un entero entre [1, %i]\n\n", maxValue);
-    } else if(maxValue < *opcionElegida || *opcionElegida < 1) {
-        system("cls");
-        printf("\n[ WARNING ] Valor fuera de límites.\nDebes introducir un entero entre [1, %i]\n\n", maxValue);
-    } else {
-        printf("\n");
-        *isValid = true;
-    }
-    liberarBuffer();
 }
 
 /**
