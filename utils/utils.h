@@ -4,7 +4,7 @@
 
 void menu(int opcion);
 void seleccion(int opcion);
-void printMenu();
+void printMenuRegistro();
 void menuRegistro(int *);
 void registrarCrimen();
 void opcionEstadisticas(int *);

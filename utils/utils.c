@@ -37,7 +37,7 @@ void seleccion(opcion){
     
 }
 
-void printMenu(){
+void printMenuRegistro(){
 
     printf("1- Administrar datos policia.\n");
     printf("2- Añadir crimen.\n");
@@ -48,11 +48,13 @@ void printMenu(){
 void menuRegistro(int *opcion){
 
     bool seguir = true;
+    int maxValue = 4;
     printf("Seleccione una opcion: \n");
 
     printMenu();
 
     scanf("%i", &opcion);
+    validarInputMenu(4, opcion, seguir);
 
     while(seguir){
 
