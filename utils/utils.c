@@ -79,34 +79,22 @@ void menuRegistro(int *opcion){
     }
     
 }
-void registrarCrimen() {
-    
+
+Crimen registrarCrimen() {
     printf("=========================================================\n");
-    printf("                   REGISTRO DE CRIMINAL                  \n");
+    printf("                   REGISTRO DE CRIMEN                   \n");
     printf("=========================================================\n");
-    
-    char *nombre;
-    char *apellido;
-    int *edad;
-    char *genero;
-    char *estadoCivil;
 
    
-    char *DNI;
-    char *descripcion;
-    char *anio;  
-
-  
-    nombre = (char *)malloc(100 * sizeof(char));
-    apellido = (char *)malloc(100 * sizeof(char));
-    edad = (int *)malloc(sizeof(int));
-    genero = (char *)malloc(20 * sizeof(char));
-    estadoCivil = (char *)malloc(20 * sizeof(char));
-    DNI = (char *)malloc(20 * sizeof(char));
-    descripcion = (char *)malloc(200 * sizeof(char));
-    anio = (char *)malloc(5 * sizeof(char));  
-
-    
+    char *nombre = (char *)malloc(100);
+    char *apellido = (char *)malloc(100);
+    int *edad = (int *)malloc(sizeof(int));
+    char *genero = (char *)malloc(20);
+    char *estadoCivil = (char *)malloc(20);
+    char *ciudadNacimiento = (char *)malloc(100);
+    char *dni = (char *)malloc(20);
+    char *descripcion = (char *)malloc(200);
+    char *anioStr = (char *)malloc(5);
 
     
     printf("Ingrese el nombre: ");
@@ -124,26 +112,32 @@ void registrarCrimen() {
     printf("Ingrese el estado civil: ");
     scanf("%s", estadoCivil);
 
-   
+    printf("Ingrese la ciudad de nacimiento: ");
+    scanf("%s", ciudadNacimiento);
+
     printf("Ingrese el DNI: ");
-    scanf("%s", DNI);
+    scanf("%s", dni);
 
     printf("Ingrese la descripción del crimen: ");
     scanf("%s", descripcion);
 
-    printf("Ingrese el anio del crimen: ");
-    scanf("%s", anio);  
+    printf("Ingrese el año del crimen: ");
+    scanf("%s", anioStr);
 
-    
-    printf("\n=== Datos Ingresados De Criminal ===\n");
-    printf("Nombre: %s\n", nombre);
-    printf("Apellido: %s\n", apellido);
-    printf("Edad: %d\n", *edad);
-    printf("Género: %s\n", genero);
-    printf("Estado Civil: %s\n", estadoCivil);
-    printf("DNI: %s\n", DNI);
-    printf("Descripción: %s\n", descripcion);
-    printf("Anio del crimen: %s\n", anio);  
+   
+    Criminal *c = malloc(sizeof(Criminal));
+    c->nombre = strdup(nombre);
+    c->apelido = strdup(apellido);
+    c->edad = *edad;
+    c->genero = strdup(genero);
+    c->estadoCivil = strdup(estadoCivil);
+    c->ciudadNacimiento = strdup(ciudadNacimiento);
+
+    Crimen crimen;
+    crimen.autor = c;
+    crimen.dni = strdup(dni);
+    crimen.descripcion = strdup(descripcion);
+    crimen.aino = atoi(anioStr);
 
     
     free(nombre);
@@ -151,7 +145,10 @@ void registrarCrimen() {
     free(edad);
     free(genero);
     free(estadoCivil);
-    free(DNI);
+    free(ciudadNacimiento);
+    free(dni);
     free(descripcion);
-    free(anio); 
+    free(anioStr);
+
+    return crimen;
 }
