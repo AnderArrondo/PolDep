@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <sqlite3.h>
-#include <crimen.h>
+#include <modules\crimen.h>
 
 int insertNewCrime(sqlite3 *db, Crimen crimen){
 
