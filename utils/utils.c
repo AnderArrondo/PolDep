@@ -1,10 +1,11 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdbool.h>
-#include "crimen.h"
+#include "./../modules/crimen.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
-int opcion;
-void menu(){
+void menu(int opcion){
     printf("----------------------\n");
     printf("ADMINISTRAR USUARIOS\n");
     printf("----------------------\n");
@@ -14,7 +15,7 @@ void menu(){
     printf("4. Modificar usuario\n");
     printf("----------------------\n");
     printf("Selecione una opcion: ");
-    scanf("%i", opcion);
+    scanf("%i", &opcion);
 }
 
 void seleccion(opcion){
@@ -36,7 +37,7 @@ void seleccion(opcion){
     
 }
 
-void printMenu(){
+void printMenuRegistro(){
 
     printf("1- Administrar datos policia.\n");
     printf("2- Añadir crimen.\n");
@@ -47,11 +48,13 @@ void printMenu(){
 void menuRegistro(int *opcion){
 
     bool seguir = true;
+    int maxValue = 4;
     printf("Seleccione una opcion: \n");
 
     printMenu();
 
     scanf("%i", &opcion);
+    validarInputMenu(4, opcion, seguir);
 
     while(seguir){
 
@@ -149,6 +152,66 @@ Crimen registrarCrimen() {
     free(dni);
     free(descripcion);
     free(anioStr);
+    
 
     return crimen;
+}
+ 
+
+
+/**
+ * Imprime el título y las opciones a elegir sobre estadísticas de criminalidad
+ */
+void printMenuEstadisticas() {
+    printf("==================================\n");
+    printf("#  ESTADÍSTICAS DE CRIMINALIDAD  #\n");
+    printf("==================================\n");
+    printf("1) Lista de criminales\n");
+    printf("2) Información sobre prisiones\n");
+    printf("3) Información sobre delincuencia\n");
+    printf("4) Salir\n");
+}
+
+/**
+ * Vacía el buffer de entrada
+ */
+void liberarBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+/**
+ * Pide un entrada al usuario:
+ * 
+ * - Si no es válida, borra la pantalla, e informa mediante un Warning.
+ * - Sino cambia el valor de isValid a true.
+ * 
+ * Finalmente, es libera la memoria del buffer.
+ */
+void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
+    printf("Elija una opción: ");
+    if(scanf("%i", opcionElegida) != 1) {
+        system("cls");
+        printf("\n[ WARNING ] Tipo de dato inválido:\nDebes introducir un entero entre [1, %i]\n\n", maxValue);
+    } else if(maxValue < *opcionElegida || *opcionElegida < 1) {
+        system("cls");
+        printf("\n[ WARNING ] Valor fuera de límites.\nDebes introducir un entero entre [1, %i]\n\n", maxValue);
+    } else {
+        printf("\n");
+        *isValid = true;
+    }
+    liberarBuffer();
+}
+
+/**
+ * Inicia un bucle que acaba cuando opcionElegida tenga un valor válido.
+ */
+void opcionEstadisticas(int *opcionElegida) {
+    bool isValid = false;
+    int maxVal = 4;
+
+    while(!isValid) {
+        printMenuEstadisticas();
+        validarInputMenu(maxVal, opcionElegida, &isValid);
+    }
 }
