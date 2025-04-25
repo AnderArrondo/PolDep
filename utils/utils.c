@@ -82,35 +82,35 @@ void menuRegistro(int *opcion){
     int maxValue = 4;
     printf("Seleccione una opcion: \n");
 
-    // printMenu();
-
     scanf("%i", opcion);
-    validarInputMenu(maxValue, opcion, &seguir);
 
-    while(seguir){
+    while(!seguir){
 
-        if(*opcion == 1){
-
-
-        }
-        else if(*opcion == 2){
-
-
-        }
-        else if(*opcion == 3){
-
-
-        }
-        else if(*opcion == 4){
-
-            seguir = false;
-            break;
-        }
-
-        // printMenu();
-        printf("Seleccione una opcion: \n");
-        scanf("%i", opcion);
+        printMenuRegistro();
+        validarInputMenu(maxValue, opcion, &seguir);
     }
+    
+
+    if(*opcion == 1){
+
+
+    }
+    else if(*opcion == 2){
+
+
+    }
+    else if(*opcion == 3){
+
+
+    }
+    else if(*opcion == 4){
+
+        seguir = false;
+    }
+
+    printMenuRegistro();
+    printf("Seleccione una opcion: \n");
+    scanf("%i", opcion);
     
 }
 
