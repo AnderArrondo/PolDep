@@ -8,6 +8,7 @@ void menu();
 void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro(int *);
+void printMenuBD();
 Crimen registrarCrimen();
 void opcionEstadisticas(int *);
 

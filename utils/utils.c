@@ -116,6 +116,18 @@ void menuRegistro(int *opcion){
     
 }
 
+void printMenuBD(){
+
+    printf("=========================================================\n");
+    printf("                   ESTADISTICAS DE PRISIONEROS                   \n");
+    printf("=========================================================\n");
+    printf("1- Mostrar prisiones por estado.\n");
+    printf("Mostrar prisiones por año.\n");
+    printf("3. Salir.\n");
+}
+
+
+
 Crimen registrarCrimen() {
     printf("=========================================================\n");
     printf("                   REGISTRO DE CRIMEN                   \n");
