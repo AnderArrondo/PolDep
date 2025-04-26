@@ -4,6 +4,7 @@
 #include "./../modules/crimen.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Vacía el buffer de entrada
