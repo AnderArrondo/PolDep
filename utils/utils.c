@@ -80,40 +80,41 @@ void printMenuRegistro(){
 
 void menuRegistro(int *opcion){
 
-    bool seguir = true;
+    bool seguir = false;
     int maxValue = 4;
     printf("Seleccione una opcion: \n");
 
-    scanf("%i", opcion);
-
-    while(!seguir){
+    while(seguir == false){
 
         printMenuRegistro();
+        scanf("%i", opcion);
         validarInputMenu(maxValue, opcion, &seguir);
     }
     
 
-    if(*opcion == 1){
+    while(seguir == true){
+
+        if(*opcion == 1){
 
 
+        }
+        else if(*opcion == 2){
+
+
+        }
+        else if(*opcion == 3){
+
+
+        }
+        else if(*opcion == 4){
+
+            seguir = false;
+        }
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
     }
-    else if(*opcion == 2){
-
-
-    }
-    else if(*opcion == 3){
-
-
-    }
-    else if(*opcion == 4){
-
-        seguir = false;
-    }
-
-    printMenuRegistro();
-    printf("Seleccione una opcion: \n");
-    scanf("%i", opcion);
-    
 }
 
 void printMenuBD(){
@@ -122,11 +123,46 @@ void printMenuBD(){
     printf("                   ESTADISTICAS DE PRISIONEROS                   \n");
     printf("=========================================================\n");
     printf("1- Mostrar prisiones por estado.\n");
-    printf("Mostrar prisiones por año.\n");
+    printf("2- Mostrar prisiones por año.\n");
     printf("3. Salir.\n");
 }
 
+void bdMenuRegistro(int *opcion){
 
+    bool seguir = false;
+    int maxValue = 3;
+    printf("Seleccione una opcion: \n");
+
+    while(seguir == false){
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
+    }
+
+
+    while(seguir == true){
+
+        if(*opcion == 1){
+
+            //metodo de mostrar prisiones por estado
+        }
+        else if(*opcion == 2){
+
+            //metodo de mostrar prisiones por año
+        }
+        else if(*opcion == 3){
+
+            seguir = false;
+        }
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
+    }
+
+
+}
 
 Crimen registrarCrimen() {
     printf("=========================================================\n");
