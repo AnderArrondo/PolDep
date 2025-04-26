@@ -68,6 +68,7 @@ void menu(int opcion){
     
 // }
 
+//MENU CREADO ABAJO PARA PODER AÑADIR LAS FUNCIONES QUE ESTEN YA DECLARADAS!!!!!!!!
 void printMenuRegistro(){
 
     printf("1- Administrar datos policia.\n");
@@ -224,4 +225,44 @@ void opcionEstadisticas(int *opcionElegida) {
     } else {
         // salir
     }
+}
+
+void menu() {
+    int opcion = 0;
+    bool opcionValida = false;
+    int maxValor = 4;
+
+    while (opcion != 4) {
+        opcionValida = false;
+
+        while (!opcionValida) {
+            printf("=========================================================\n");
+            printf("                    POLICIA DEUSTO                       \n");
+            printf("=========================================================\n");
+            printf("Selecione una de esta opciones:\n");
+            printf("1- Administrar datos policia\n");
+            printf("2- Añadir crimen\n");
+            printf("3- Visualizar estadisticas\n");
+            printf("4- Salir\n");
+            printf("----------------------\n");
+            scanf("%d", &opcion);
+
+            if (opcion >= 1 && opcion <= maxValor) {
+                opcionValida = true;
+            } else {
+                printf("Opcion no valida. Intentelo de nuevo\n");
+            }
+        }
+    //meter vuestrats fucniones aqui
+        if (opcion == 1) {
+            printf("Administratcion de datos\n");
+        } else if (opcion == 2) {
+            printf("Agregar crimen\n");
+            Crimen registrarCrimen();
+        } else if (opcion == 3) {
+            printf("Visualizacion de Estadisticas\n");
+        } else if (opcion == 4) {
+            printf("Salir\n");
+    }
+}
 }
