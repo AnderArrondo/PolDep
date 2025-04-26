@@ -77,13 +77,46 @@ int csv_to_db(char **filenames, int size, sqlite3 *db) {
 	return 0;
 }
 
+int get_last_inserted_id(sqlite3 *db) {
+    return (int)sqlite3_last_insert_rowid(db);
+}
+
 int insertNewCrime(sqlite3 *db, Crimen crimen){
 
     sqlite3_stmt *stmt;
 
-    char sql[] = "Insert into crime (id, nombre, apellido, edad, genero, estadoCivil, ciudadNacimiento, dni, descripcion, anioStr) values (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	char sqlCriminal[] = "Insert into Criminal (id, nombre, apellido, edad, genero, ciudadNacimiento, estadoCivil) values (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    int result = sqlite3_prepare_v2(db, sqlCriminal, -1, &stmt, NULL) ;
+
+    if (result != SQLITE_OK) {
+		printf("Error preparing statement (INSERT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+    printf("SQL query prepared (INSERT)\n");
+
+    result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE) {
+		printf("Error inserting new data into country table\n");
+		return result;
+	}
+
+    result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (INSERT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (INSERT)\n");
+
+	//////
+	int idCriminal = get_last_inserted_id(db);
+    char sqlCrimen[] = "Insert into Crimen (id, anyo, descripcion, idCriminal) values (NULL, ?, ?, ?, ?)";
+
+    int result = sqlite3_prepare_v2(db, sqlCrimen, -1, &stmt, NULL) ;
 
     if (result != SQLITE_OK) {
 		printf("Error preparing statement (INSERT)\n");
