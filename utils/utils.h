@@ -1,12 +1,14 @@
+
+#include "./../modules/crimen.h"
+
 #ifndef UTILS_H
 #define UTILS_H
-#include "utils.h"
 
 void menu(int opcion);
 void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro(int *);
-void registrarCrimen();
+Crimen registrarCrimen();
 void opcionEstadisticas(int *);
 
 #endif
