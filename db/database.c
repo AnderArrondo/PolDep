@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include "sqlite3.h"
+#include "./../modules/criminal.h"
 #include "./../modules/crimen.h"
 #include <string.h>
 
@@ -106,6 +107,45 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	}
 
 	printf("Prepared statement finalized (INSERT)\n");
+
+	return SQLITE_OK;
+}
+
+int mostrarListaCriminales(sqlite3 *db) {
+	int id, result;
+	Criminal c;
+	sqlite3_stmt *stmt;
+	
+	char *sql = "SELECT * FROM Criminal;";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparando statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	do {
+		result = sqlite3_step(stmt) ;
+		if (result == SQLITE_ROW) {
+			id = sqlite3_column_int(stmt, 0);
+			strcpy(c.nombre, (char *) sqlite3_column_text(stmt, 1));
+			strcpy(c.apelido, (char *) sqlite3_column_text(stmt, 2));
+			c.edad = sqlite3_column_int(stmt, 3);
+			strcpy(c.genero, (char *) sqlite3_column_text(stmt, 4));
+			strcpy(c.ciudadNacimiento, (char *) sqlite3_column_text(stmt, 5));
+			strcpy(c.estadoCivil, (char *) sqlite3_column_text(stmt, 6));
+
+			printCriminal(id, &c);
+		}
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizando statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	return SQLITE_OK;
 }
