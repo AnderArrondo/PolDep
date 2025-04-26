@@ -4,7 +4,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-void menu(int opcion);
+void menu();
 void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro(int *);
