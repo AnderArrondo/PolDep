@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "sqlite3.h"
 #include "./../modules/criminal.h"
 #include "./../modules/crimen.h"
@@ -116,7 +117,7 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	int idCriminal = get_last_inserted_id(db);
     char sqlCrimen[] = "Insert into Crimen (id, anyo, descripcion, idCriminal) values (NULL, ?, ?, ?, ?)";
 
-    int result = sqlite3_prepare_v2(db, sqlCrimen, -1, &stmt, NULL) ;
+    result = sqlite3_prepare_v2(db, sqlCrimen, -1, &stmt, NULL) ;
 
     if (result != SQLITE_OK) {
 		printf("Error preparing statement (INSERT)\n");
@@ -147,6 +148,11 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 int mostrarListaCriminales(sqlite3 *db) {
 	int id, result;
 	Criminal c;
+	c.nombre = malloc(20 * sizeof(char));
+	c.apelido = malloc(20 * sizeof(char));
+	c.genero = malloc(sizeof(char));
+	c.ciudadNacimiento = malloc(25 * sizeof(char));
+	c.estadoCivil = malloc(15 * sizeof(char));
 	sqlite3_stmt *stmt;
 	
 	char *sql = "SELECT * FROM Criminal;";
@@ -179,6 +185,12 @@ int mostrarListaCriminales(sqlite3 *db) {
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
+
+	free(c.nombre);
+	free(c.apelido);
+	free(c.genero);
+	free(c.ciudadNacimiento);
+	free(c.estadoCivil);
 
 	return SQLITE_OK;
 }

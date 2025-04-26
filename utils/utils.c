@@ -37,18 +37,18 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
     liberarBuffer();
 }
 
-void menu(int opcion){
-    printf("----------------------\n");
-    printf("ADMINISTRAR USUARIOS\n");
-    printf("----------------------\n");
-    printf("1. Ver todos los usuarios\n");
-    printf("2. Agregar nuevo usuario\n");
-    printf("3. Eliminar usuario\n");
-    printf("4. Modificar usuario\n");
-    printf("----------------------\n");
-    printf("Selecione una opcion: ");
-    scanf("%i", &opcion);
-}
+// void menu(int opcion){
+//     printf("----------------------\n");
+//     printf("ADMINISTRAR USUARIOS\n");
+//     printf("----------------------\n");
+//     printf("1. Ver todos los usuarios\n");
+//     printf("2. Agregar nuevo usuario\n");
+//     printf("3. Eliminar usuario\n");
+//     printf("4. Modificar usuario\n");
+//     printf("----------------------\n");
+//     printf("Selecione una opcion: ");
+//     scanf("%i", &opcion);
+// }
 
 // void seleccion(opcion){
 //     int opciones={1,2,3,4};
