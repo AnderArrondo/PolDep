@@ -145,6 +145,34 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	return SQLITE_OK;
 }
 
+int mostrarPrisionesPorEstado(sqlite3 *db, char *estado){
+
+	sqlite3_stmt *stmt;
+
+	char sqlPrision[] = "select * from Prision where jurisdiccion = ?";
+
+	int result = sqlite3_prepare_v2(db, sqlPrision, -1, &stmt, NULL) ;
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+
+	result = sqlite3_bind_text(stmt, 1, estado, strlen(estado), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("\n");
+	printf("\n");
+	printf("Mostrando prisiones:\n");
+
+}
+
 int mostrarListaCriminales(sqlite3 *db) {
 	int id, result;
 	Criminal c;
@@ -194,3 +222,4 @@ int mostrarListaCriminales(sqlite3 *db) {
 
 	return SQLITE_OK;
 }
+

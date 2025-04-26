@@ -7,6 +7,7 @@
 
 int get_last_inserted_id(sqlite3 *db);
 int insertNewCrime(sqlite3 *, Crimen);
+int mostrarPrisionesPorEstado(sqlite3 *db, char *estado);
 int csv_to_db(char **, int, sqlite3 *);
 int mostrarListaCriminales(sqlite3 *);
 
