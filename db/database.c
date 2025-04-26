@@ -28,8 +28,6 @@ int insert_data(sqlite3 *db, char *csv_line, int id) {
 		if(i == 1) {
 			// jurisdiccion
 			sqlite3_bind_text(stmt, i, token, -1, SQLITE_TRANSIENT);
-		} else if(token == "") {
-			sqlite3_bind_null(stmt, i);
 		} else {
 			sscanf(token, "%d", &value);
 			sqlite3_bind_int(stmt, i, value);
