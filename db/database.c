@@ -145,7 +145,7 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	return SQLITE_OK;
 }
 
-int mostrarPrisionesPorEstado(sqlite3 *db, char *estado){
+int mostrarPrisionesPorEstado(sqlite3 *db, char estado[]){
 
 	sqlite3_stmt *stmt;
 
@@ -167,9 +167,46 @@ int mostrarPrisionesPorEstado(sqlite3 *db, char *estado){
 		return result;
 	}
 
+	char jurisdiccion[100];
+	int incluyeCarcel;
+	int ainos[16];
+
 	printf("\n");
 	printf("\n");
 	printf("Mostrando prisiones:\n");
+
+	do {
+		result = sqlite3_step(stmt) ;
+		if (result == SQLITE_ROW) {
+			strcpy(jurisdiccion, (char *) sqlite3_column_text(stmt, 0));
+			incluyeCarcel = sqlite3_column_int(stmt, 1);
+
+			for (int i = 0; i < 16; i++) {
+                ainos[i] = sqlite3_column_int(stmt, i + 2); // columnas 2 a 17
+            }
+
+			printf("Jurisdiccion: %s IncluyeCarcel: %i\n", jurisdiccion, incluyeCarcel);
+			for(int i = 0; i < 16; i++){
+
+				printf("Año %i", ainos[i]);
+			}
+			
+		}
+	} while (result == SQLITE_ROW);
+
+	printf("\n");
+	printf("\n");
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
+
+	return SQLITE_OK;
 
 }
 
