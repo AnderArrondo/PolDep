@@ -50,24 +50,20 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 //     scanf("%i", &opcion);
 // }
 
-// void seleccion(opcion){
-//     int opciones={1,2,3,4};
-    
-//     if (opcion==opciones){
-//         if (opcion==1){
-            
-//         }else if (opcion==2){
+void seleccion(int opcion) {
+    if (opcion == 1) {
+        
+    } else if (opcion == 2) {
 
-//         }else if (opcion==3){
+    } else if (opcion == 3) {
+        
+    } else if (opcion == 4) {
+        
+    } else {
+        printf("Selecciona una opción válida\n");
+    }
+}
 
-//         }else if (opcion==4){
-            
-//         }
-//     }else{
-//         printf("Selecciona una opcion valida");
-//     }
-    
-// }
 
 //MENU CREADO ABAJO PARA PODER AÑADIR LAS FUNCIONES QUE ESTEN YA DECLARADAS!!!!!!!!
 void printMenuRegistro(){
