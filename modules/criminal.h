@@ -10,4 +10,6 @@ typedef struct{
     char *estadoCivil;
 } Criminal;
 
+void printCriminal(int id, Criminal *);
+
 #endif
