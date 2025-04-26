@@ -68,10 +68,14 @@ void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE P
 //MENU CREADO ABAJO PARA PODER AÑADIR LAS FUNCIONES QUE ESTEN YA DECLARADAS!!!!!!!!
 void printMenuRegistro(){
 
+    printf("=========================================================\n");
+    printf("                   DEPARTAMENTO DE POLICIA                   \n");
+    printf("=========================================================\n");
     printf("1- Administrar datos policia.\n");
     printf("2- Añadir crimen.\n");
     printf("3- Visualizar estadisticas.\n");
     printf("4- Salir.\n");
+    printf("----------------------\n");
 }
 
 void menuRegistro(int *opcion){
