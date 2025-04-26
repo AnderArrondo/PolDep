@@ -2,7 +2,7 @@
 #define UTILS_H
 #include "utils.h"
 
-void menu(int opcion);
+void menu();
 void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro(int *);
