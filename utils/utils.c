@@ -37,20 +37,20 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
     liberarBuffer();
 }
 
-void menu(int opcion){
+void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
     printf("----------------------\n");
     printf("ADMINISTRAR USUARIOS\n");
     printf("----------------------\n");
-    printf("1. Ver todos los usuarios\n");
-    printf("2. Agregar nuevo usuario\n");
-    printf("3. Eliminar usuario\n");
-    printf("4. Modificar usuario\n");
+    printf("1) Ver todos los usuarios\n");
+    printf("2) Agregar nuevo usuario\n");
+    printf("3) Eliminar usuario\n");
+    printf("4) Modificar usuario\n");
     printf("----------------------\n");
     printf("Selecione una opcion: ");
-    scanf("%i", &opcion);
 }
 
-void seleccion(int opcion) {
+void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
+                            // EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
     if (opcion == 1) {
         
     } else if (opcion == 2) {
