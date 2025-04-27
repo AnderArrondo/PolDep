@@ -341,3 +341,15 @@ int insertUsuario(sqlite3 *db, char *username, char *password) {
 }
 
 
+void mostrarUsuarios(sqlite3 *db) {
+
+}
+
+void eliminarUsuario(sqlite3 *db) {
+
+}
+
+void modificarUsuario(sqlite3 *db) {
+
+}
+

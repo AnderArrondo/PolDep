@@ -51,12 +51,10 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 //     printf("Selecione una opcion: ");
 // }
 
-// INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
-// EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
-void seleccion(sqlite3 *db) {
+void seleccion(sqlite3 *db) { //AÑADIR OPCION DE SALIDA AL MENU.
     int opcion = 0;
     bool opcionValida = false;
-    int maxValor = 4;
+    int maxValor = 5;
 
     while (!opcionValida) {
         printf("=========================================================\n");
@@ -66,6 +64,7 @@ void seleccion(sqlite3 *db) {
         printf("2. Agregar nuevo usuario\n");
         printf("3. Eliminar usuario\n");
         printf("4. Modificar usuario\n");
+        //5, salir
         printf("----------------------\n");
         printf("Seleccione una opción: ");
         scanf("%d", &opcion);
