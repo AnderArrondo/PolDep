@@ -38,20 +38,20 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
     liberarBuffer();
 }
 
-// void menu(int opcion){
-//     printf("----------------------\n");
-//     printf("ADMINISTRAR USUARIOS\n");
-//     printf("----------------------\n");
-//     printf("1. Ver todos los usuarios\n");
-//     printf("2. Agregar nuevo usuario\n");
-//     printf("3. Eliminar usuario\n");
-//     printf("4. Modificar usuario\n");
-//     printf("----------------------\n");
-//     printf("Selecione una opcion: ");
-//     scanf("%i", &opcion);
-// }
+void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
+    printf("----------------------\n");
+    printf("ADMINISTRAR USUARIOS\n");
+    printf("----------------------\n");
+    printf("1) Ver todos los usuarios\n");
+    printf("2) Agregar nuevo usuario\n");
+    printf("3) Eliminar usuario\n");
+    printf("4) Modificar usuario\n");
+    printf("----------------------\n");
+    printf("Selecione una opcion: ");
+}
 
-void seleccion(int opcion) {
+void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
+                            // EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
     if (opcion == 1) {
         
     } else if (opcion == 2) {
@@ -69,48 +69,100 @@ void seleccion(int opcion) {
 //MENU CREADO ABAJO PARA PODER AÑADIR LAS FUNCIONES QUE ESTEN YA DECLARADAS!!!!!!!!
 void printMenuRegistro(){
 
+    printf("=========================================================\n");
+    printf("                   DEPARTAMENTO DE POLICIA                   \n");
+    printf("=========================================================\n");
     printf("1- Administrar datos policia.\n");
     printf("2- Añadir crimen.\n");
     printf("3- Visualizar estadisticas.\n");
     printf("4- Salir.\n");
+    printf("----------------------\n");
 }
 
 void menuRegistro(int *opcion){
 
-    bool seguir = true;
+    bool seguir = false;
     int maxValue = 4;
     printf("Seleccione una opcion: \n");
 
-    scanf("%i", opcion);
-
-    while(!seguir){
+    while(seguir == false){
 
         printMenuRegistro();
+        scanf("%i", opcion);
         validarInputMenu(maxValue, opcion, &seguir);
     }
     
 
-    if(*opcion == 1){
+    while(seguir == true){
+
+        if(*opcion == 1){
 
 
+        }
+        else if(*opcion == 2){
+
+
+        }
+        else if(*opcion == 3){
+
+
+        }
+        else if(*opcion == 4){
+
+            seguir = false;
+        }
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
     }
-    else if(*opcion == 2){
+}
 
+void printMenuBD(){
 
-    }
-    else if(*opcion == 3){
+    printf("=========================================================\n");
+    printf("                   ESTADISTICAS DE PRISIONEROS                   \n");
+    printf("=========================================================\n");
+    printf("1- Mostrar prisiones por estado.\n");
+    printf("2- Mostrar prisiones por año.\n");
+    printf("3. Salir.\n");
+}
 
+void bdMenuRegistro(int *opcion){
 
-    }
-    else if(*opcion == 4){
-
-        seguir = false;
-    }
-
-    printMenuRegistro();
+    bool seguir = false;
+    int maxValue = 3;
     printf("Seleccione una opcion: \n");
-    scanf("%i", opcion);
-    
+
+    while(seguir == false){
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
+    }
+
+
+    while(seguir == true){
+
+        if(*opcion == 1){
+
+            //metodo de mostrar prisiones por estado
+        }
+        else if(*opcion == 2){
+
+            //metodo de mostrar prisiones por año
+        }
+        else if(*opcion == 3){
+
+            seguir = false;
+        }
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
+    }
+
+
 }
 
 Crimen registrarCrimen() {
