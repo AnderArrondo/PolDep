@@ -50,8 +50,9 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 //     printf("----------------------\n");
 //     printf("Selecione una opcion: ");
 // }
+
 // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
- // EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
+// EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
 void seleccion(sqlite3 *db) {
     int opcion = 0;
     bool opcionValida = false;
@@ -74,7 +75,7 @@ void seleccion(sqlite3 *db) {
 
     if (opcion == 1) {
         printf("Mostrando todos los usuarios...\n");
-        mostrarUsuarios(db); 
+        mostrarUsuarios(db); //ESTA FUNCION HAY QUE HACERLA
     } 
     else if (opcion == 2) {
         printf("Agregando nuevo usuario...\n");
@@ -82,17 +83,28 @@ void seleccion(sqlite3 *db) {
     } 
     else if (opcion == 3) {
         printf("Eliminando un usuario...\n");
-        eliminarUsuario(db); 
+        eliminarUsuario(db); //ESTA FUNCION HAY QUE HACERLA
     } 
     else if (opcion == 4) {
         printf("Modificando un usuario...\n");
-        modificarUsuario(db); 
+        modificarUsuario(db); //ESTA FUNCION HAY QUE HACERLA
     } 
     else {
         printf("Selecciona una opción válida.\n");
     }
 }
 
+void mostrarUsuarios(sqlite3 *db) {
+
+}
+
+void eliminarUsuario(sqlite3 *db) {
+
+}
+
+void modificarUsuario(sqlite3 *db) {
+
+}
 
 
 void menuRegistro(db){
