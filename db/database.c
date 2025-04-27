@@ -88,7 +88,7 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 
     sqlite3_stmt *stmt;
 
-	char sqlCriminal[] = "Insert into Criminal (nombre, apellido, edad, genero, ciudadNacimiento, estadoCivil) values (?, ?, ?, ?, ?, ?, ?)";
+	char sqlCriminal[] = "Insert into Criminal (nombre, apellido, edad, genero, ciudadNacimiento, estadoCivil) values (?, ?, ?, ?, ?, ?)";
 
     int result = sqlite3_prepare_v2(db, sqlCriminal, -1, &stmt, NULL) ;
 
