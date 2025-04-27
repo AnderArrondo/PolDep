@@ -255,27 +255,67 @@ void printMenuEstadisticas() {
     printf("----------------------\n");
 }
 
+void printMenuDelincuencia() {
+    printf("=========================================================\n");
+    printf("              ESTADÍSTICAS DE DELINCUENCIA               \n");
+    printf("=========================================================\n");
+    printf("1- Datos por estado\n");
+    printf("2- Datos por año\n");
+    printf("3- Informe de delincuencia\n");
+    printf("4- Salir\n");
+    printf("----------------------\n");
+}
+
+void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
+    bool isValid = false;
+    bool salir = false;
+    int maxVal = 4;
+
+    while(!salir) {
+        while(!isValid) {
+            printMenuDelincuencia();
+            validarInputMenu(maxVal, opcionElegida, &isValid);
+        }
+
+        if(*opcionElegida == 1) {
+            // Datos por estado
+            mostrarListaCriminales(db);
+        } else if(*opcionElegida == 2) {
+            // Datos por año
+        } else if(*opcionElegida == 3) {
+            // Informe de delincuencia
+        } else {
+            // salir
+            salir = true;
+        }
+    }
+}
+
 /**
  * Inicia un bucle que acaba cuando opcionElegida tenga un valor válido.
  */
 void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
     bool isValid = false;
+    bool salir = false;
     int maxVal = 4;
 
-    while(!isValid) {
-        printMenuEstadisticas();
-        validarInputMenu(maxVal, opcionElegida, &isValid);
-    }
-
-    if(*opcionElegida == 1) {
-        // Lista de criminales
-        mostrarListaCriminales(db);
-    } else if(*opcionElegida == 2) {
-        // Información sobre prisioneros
-    } else if(*opcionElegida == 3) {
-        // Información sobre delincuencia
-    } else {
-        // salir
+    while(!salir) {
+        while(!isValid) {
+            printMenuEstadisticas();
+            validarInputMenu(maxVal, opcionElegida, &isValid);
+        }
+    
+        if(*opcionElegida == 1) {
+            // Lista de criminales
+            mostrarListaCriminales(db);
+        } else if(*opcionElegida == 2) {
+            // Información sobre prisioneros
+        } else if(*opcionElegida == 3) {
+            // Información sobre delincuencia
+        } else {
+            // salir
+            salir = true;
+        }
     }
 }
 
