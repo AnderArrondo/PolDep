@@ -336,7 +336,7 @@ void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
     }
 }
 
-bool iniciarsesion(sqlite3 *db){
+void iniciarsesion(sqlite3 *db){
     bool encontrado = false;
     char username[100];
     char password[100];
@@ -356,7 +356,7 @@ bool iniciarsesion(sqlite3 *db){
         }
     }
 
-    return true;
+   printf("Usuario existente");
 }
 
 
@@ -378,7 +378,7 @@ void menu() {
         csv_to_db(filenames, 2, db);
     }
 
-    iniciarsesion(db);
+    iniciarsesion(db); // no dejara avanzar hasta que salga del bucle
 
     int opcion = 0;
     bool opcionValida = false;

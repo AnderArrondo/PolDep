@@ -18,5 +18,5 @@ void opcionEstadisticas(int *, sqlite3 *db);
 void menuRegistro(sqlite3 *db);
 void printMenuDelincuencia() ;
 void printMenuEstadisticas();
-bool iniciarsesion(sqlite3 *db);
+void iniciarsesion(sqlite3 *db);
 #endif
