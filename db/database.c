@@ -6,6 +6,7 @@
 #include "./../modules/criminal.h"
 #include "./../modules/crimen.h"
 #include <string.h>
+#include <stdbool.h>
 
 #define BUFFER_SIZE 1024
 
@@ -536,4 +537,37 @@ void eliminarUsuario(sqlite3 *db) {
 void modificarUsuario(sqlite3 *db) {
 
 }
+bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT COUNT(*) FROM Policia WHERE nombre = ? AND contraseña = ?;";
+    int result;
 
+    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        printf("Error preparando statement: %s\n", sqlite3_errmsg(db));
+        return false;
+    }
+
+
+    sqlite3_bind_text(stmt, 1, nombre, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, contrasena, -1, SQLITE_STATIC);
+
+  
+    result = sqlite3_step(stmt);
+    if (result == SQLITE_ROW) {
+        int count = sqlite3_column_int(stmt, 0);
+
+        sqlite3_finalize(stmt);
+
+        if (count > 0) {
+            return true;   // Existe devuleve true
+        } else {
+            return false;  // sino false
+        }
+    } else {
+        printf("Error ejecutando consulta: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(stmt);
+    return false; // por si acaso sale algun problema en la base de datos
+}
