@@ -38,21 +38,15 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
     liberarBuffer();
 }
 
-<<<<<<< HEAD
+
 void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
     printf("=========================================================\n");
     printf("                    ADMINISTRAR USUARIOS                 \n");
     printf("=========================================================\n");
-=======
-void menuadministrar(){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
-    printf("----------------------\n"); //no lo pases por parametro
-    printf("ADMINISTRAR USUARIOS\n");
-    printf("----------------------\n");
->>>>>>> b14a15ea48e78fffd0c3858334f308c359bf0563
-    printf("1) Ver todos los usuarios\n");
-    printf("2) Agregar nuevo usuario\n");
-    printf("3) Eliminar usuario\n");
-    printf("4) Modificar usuario\n");
+    printf("1. Ver todos los usuarios\n");
+    printf("2. Agregar nuevo usuario\n");
+    printf("3. Eliminar usuario\n");
+    printf("4. Modificar usuario\n");
     printf("----------------------\n");
     printf("Selecione una opcion: ");
 }
