@@ -9,6 +9,6 @@ void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro(int *);
 Crimen registrarCrimen();
-void opcionEstadisticas(int *);
+void opcionEstadisticas(int *, sqlite3 db);
 
 #endif

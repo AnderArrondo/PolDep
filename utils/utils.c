@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include "./../db/database.h"
 
 /**
  * Vacía el buffer de entrada
@@ -204,7 +205,7 @@ void printMenuEstadisticas() {
 /**
  * Inicia un bucle que acaba cuando opcionElegida tenga un valor válido.
  */
-void opcionEstadisticas(int *opcionElegida) {
+void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
     bool isValid = false;
     int maxVal = 4;
 
@@ -215,6 +216,7 @@ void opcionEstadisticas(int *opcionElegida) {
 
     if(*opcionElegida == 1) {
         // Lista de criminales
+        mostrarListaCriminales(db);
     } else if(*opcionElegida == 2) {
         // Información sobre prisioneros
     } else if(*opcionElegida == 3) {

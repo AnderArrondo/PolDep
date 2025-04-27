@@ -194,3 +194,4 @@ int mostrarListaCriminales(sqlite3 *db) {
 
 	return SQLITE_OK;
 }
+
