@@ -279,7 +279,6 @@ void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
 
         if(*opcionElegida == 1) {
             // Datos por estado
-            mostrarListaCriminales(db);
         } else if(*opcionElegida == 2) {
             // Datos por año
         } else if(*opcionElegida == 3) {
@@ -355,6 +354,30 @@ void menu() {
             printf("Visualizacion de Estadisticas\n");
         } else if (opcion == 4) {
             printf("Salir\n");
+        }
     }
 }
+
+char *histStr(int n, char c) {
+    int i;
+    char *result;
+
+    if(n == NULL) {
+        result = malloc(2 * sizeof(char));
+        result[0] = 'X';
+        result[1] = '\0';
+        return result;
+    } else if(n <= 0) {
+        result = malloc(sizeof(char));
+        result[0] = '\0';
+        return result;
+    }
+
+    result = malloc((n + 1) * sizeof(char));
+    for(i = 0; i < n; i++) {
+        result[i] = c;
+    }
+    result[n] = '\0';
+    
+    return result;
 }
