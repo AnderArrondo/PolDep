@@ -10,7 +10,12 @@ void menu();
 void seleccion(sqlite3 *db);
 void printMenuRegistro();
 void printMenuBD();
+<<<<<<< HEAD
+void bdMenuRegistro(int *opcion, sqlite3 *db);
+void opcionEstadisticas(int *, sqlite3 *db);
+=======
 void bdMenuRegistro(int *opcion);
+>>>>>>> 2db39bcf79dd0e5abf2b4ea109e7b4d837b53bfc
 char *histStr(int, char);
 void menuRegistro();
 void registrarCrimen(sqlite3 *db);

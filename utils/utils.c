@@ -136,39 +136,43 @@ void printMenuBD(){ //no estiendo esto para que es
     printf("3. Salir.\n");
 }
 
-void bdMenuRegistro(int *opcion){
+void bdMenuRegistro(int *opcion, sqlite3 *db){
 
-    bool seguir = false;
+    bool isValid = false;
+    bool salir = false;
     int maxValue = 3;
     printf("Seleccione una opcion: \n");
 
-    while(seguir == false){
 
-        printMenuRegistro();
-        scanf("%i", opcion);
-        validarInputMenu(maxValue, opcion, &seguir);
-    }
+    while(!salir){
 
+        while(!isValid){
 
-    while(seguir == true){
-
-        if(*opcion == 1){
-
-            //metodo de mostrar prisiones por estado
-        }
-        else if(*opcion == 2){
-
-            //metodo de mostrar prisiones por año
-        }
-        else if(*opcion == 3){
-
-            seguir = false;
+            printMenuRegistro();
+            scanf("%i", opcion);
+            validarInputMenu(maxValue, opcion, &isValid);
         }
 
-        printMenuRegistro();
-        scanf("%i", opcion);
-        validarInputMenu(maxValue, opcion, &seguir);
-    }
+            if(*opcion == 1){
+
+                printf("Inserta un estado: \n");
+                char estado[100];
+                scanf("%s", estado);
+                mostrarPrisionesPorEstado(db, estado);
+            }
+            else if(*opcion == 2){
+
+                printf("Inserta un año: \n");
+                int aino;
+                scanf("%i", &aino);
+                mostrarPrisionesPorAino(db, aino);
+            }
+            else if(*opcion == 3){
+
+                salir = true;
+            }
+
+        }
 
 
 }
