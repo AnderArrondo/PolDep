@@ -194,3 +194,33 @@ int mostrarListaCriminales(sqlite3 *db) {
 
 	return SQLITE_OK;
 }
+#include <stdio.h>
+#include <sqlite3.h>
+
+int insertUsuario(sqlite3 *db, char *username, char *password) {
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO Usuarios (username, password) VALUES (?, ?);";
+    int result;
+
+    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        printf("Error preparando el statement: %s\n", sqlite3_errmsg(db));
+        return result;
+    }
+
+    // Vincular los valores a las interrogantes (?)
+    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, password, -1, SQLITE_STATIC);
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        printf("Error ejecutando el statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return result;
+    }
+
+    sqlite3_finalize(stmt);
+
+    printf("Usuario registrado correctamente en la base de datos.\n");
+    return SQLITE_OK;
+}

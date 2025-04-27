@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include "./db/database.h"
+#include "../db/sqlite3.h"
 
 /**
  * Vacía el buffer de entrada
@@ -65,50 +67,19 @@ void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE P
 }
 
 
-//MENU CREADO ABAJO PARA PODER AÑADIR LAS FUNCIONES QUE ESTEN YA DECLARADAS!!!!!!!!
-void printMenuRegistro(){
+void menuRegistro(){
+    //Creada la funcion de la base de datos pero no la tabala de la base de datos
+   char username[100];
+    char password[100];
 
-    printf("1- Administrar datos policia.\n");
-    printf("2- Añadir crimen.\n");
-    printf("3- Visualizar estadisticas.\n");
-    printf("4- Salir.\n");
-}
+    printf("Ingrese su nombre de usuario: ");
+    scanf("%s", username);
 
-void menuRegistro(int *opcion){
+    printf("Ingrese su contraseña: ");
+    scanf("%s", password);
 
-    bool seguir = true;
-    int maxValue = 4;
-    printf("Seleccione una opcion: \n");
+ 
 
-    scanf("%i", opcion);
-
-    while(!seguir){
-
-        printMenuRegistro();
-        validarInputMenu(maxValue, opcion, &seguir);
-    }
-    
-
-    if(*opcion == 1){
-
-
-    }
-    else if(*opcion == 2){
-
-
-    }
-    else if(*opcion == 3){
-
-
-    }
-    else if(*opcion == 4){
-
-        seguir = false;
-    }
-
-    printMenuRegistro();
-    printf("Seleccione una opcion: \n");
-    scanf("%i", opcion);
     
 }
 
@@ -225,6 +196,25 @@ void opcionEstadisticas(int *opcionElegida) {
 }
 
 void menu() {
+    sqlite3 *db;
+    bool dbcargada = false;
+
+    int result = sqlite3_open("./db/data.sqlite3", &db);
+    if (result != SQLITE_OK) {
+        printf("Error opening database\n");
+        return result;
+    } else {
+        dbcargada = true;
+    }
+
+    if (dbcargada) {
+        char *filenames[2] = {
+            "./data/crime_and_incarceration_by_state.csv",
+            "./data/prison_custody_by_state.csv"
+        };
+        csv_to_db(filenames, 2, db);
+    }
+    menuRegistro();
     int opcion = 0;
     bool opcionValida = false;
     int maxValor = 4;
@@ -236,11 +226,11 @@ void menu() {
             printf("=========================================================\n");
             printf("                    POLICIA DEUSTO                       \n");
             printf("=========================================================\n");
-            printf("Selecione una de esta opciones:\n");
-            printf("1- Administrar datos policia\n");
-            printf("2- Añadir crimen\n");
-            printf("3- Visualizar estadisticas\n");
-            printf("4- Salir\n");
+            printf("Seleccione una de estas opciones:\n");
+            printf("1 - Administrar datos policia\n");
+            printf("2 - Añadir crimen\n");
+            printf("3 - Visualizar estadisticas\n");
+            printf("4 - Salir\n");
             printf("----------------------\n");
             scanf("%d", &opcion);
 
@@ -250,16 +240,30 @@ void menu() {
                 printf("Opcion no valida. Intentelo de nuevo\n");
             }
         }
-    //meter vuestrats fucniones aqui
+
         if (opcion == 1) {
-            printf("Administratcion de datos\n");
+            printf("Administración de datos\n");
+            
+
         } else if (opcion == 2) {
             printf("Agregar crimen\n");
-            Crimen registrarCrimen();
+            Crimen crimenInsertar = registrarCrimen();
+            insertNewCrime(db, crimenInsertar);
+
         } else if (opcion == 3) {
-            printf("Visualizacion de Estadisticas\n");
+            printf("Visualización de estadísticas\n");
+
         } else if (opcion == 4) {
             printf("Salir\n");
+            
+        }
     }
-}
+
+    result = sqlite3_close(db);
+    if (result != SQLITE_OK) {
+        printf("Error closing database\n");
+        printf("%s\n", sqlite3_errmsg(db));
+    }
+
+    return;
 }
