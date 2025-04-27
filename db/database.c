@@ -98,8 +98,6 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 		return result;
 	}
 
-    printf("SQL query prepared (INSERT)\n");
-
 	char *nombre = crimen.autor->nombre;
 	result = sqlite3_bind_text(stmt, 1, nombre, strlen(nombre), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
@@ -150,7 +148,7 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 
     result = sqlite3_step(stmt);
 	if (result != SQLITE_DONE) {
-		printf("Error inserting new data into country table\n");
+		printf("Error inserting new data into Criminal table\n");
 		return result;
 	}
 
@@ -160,8 +158,6 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
-
-	printf("Prepared statement finalized (INSERT)\n");
 
 	//////
 	
@@ -186,7 +182,7 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	}
 
 	char *descripcion = crimen.descripcion;
-	result = sqlite3_bind_text(stmt, 2, descripcion, strlen(descripcion), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt, 2, descripcion, strlen(descripcion), SQLITE_TRANSIENT);
 	if (result != SQLITE_OK) {
 		printf("Error binding parameters\n");
 		printf("%s\n", sqlite3_errmsg(db));
@@ -203,7 +199,8 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 
     result = sqlite3_step(stmt);
 	if (result != SQLITE_DONE) {
-		printf("Error inserting new data into country table\n");
+		printf("Error inserting new data into Crimen table\n");
+		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
 
@@ -223,7 +220,7 @@ int mostrarPrisionesPorEstado(sqlite3 *db, char estado[]){
 
 	sqlite3_stmt *stmt;
 
-	char sqlPrision[] = "select * from Prision where jurisdiccion = ?";
+	char sqlPrision[] = "SELECT * FROM Prision WHERE UPPER(jurisdiccion) = UPPER(?);";
 
 	int result = sqlite3_prepare_v2(db, sqlPrision, -1, &stmt, NULL) ;
 	if (result != SQLITE_OK) {
@@ -232,9 +229,7 @@ int mostrarPrisionesPorEstado(sqlite3 *db, char estado[]){
 		return result;
 	}
 
-	printf("SQL query prepared (SELECT)\n");
-
-	result = sqlite3_bind_text(stmt, 1, estado, strlen(estado), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt, 1, estado, strlen(estado) - 1, SQLITE_STATIC);
 	if (result != SQLITE_OK) {
 		printf("Error binding parameters\n");
 		printf("%s\n", sqlite3_errmsg(db));
@@ -244,10 +239,6 @@ int mostrarPrisionesPorEstado(sqlite3 *db, char estado[]){
 	char jurisdiccion[100];
 	int incluyeCarcel;
 	int ainos[16];
-
-	printf("\n");
-	printf("\n");
-	printf("Mostrando prisiones:\n");
 
 	do {
 		result = sqlite3_step(stmt) ;
@@ -259,16 +250,20 @@ int mostrarPrisionesPorEstado(sqlite3 *db, char estado[]){
                 ainos[i] = sqlite3_column_int(stmt, i + 2);
             }
 
-			printf("Jurisdiccion: %s, IncluyeCarcel: %i,\n", jurisdiccion, incluyeCarcel);
-			for(int i = 0; i < 16; i++){
+			printf("JURISDICCIÓN: %s\nINCLUYE CÁRCEL: %i\n\n", jurisdiccion, incluyeCarcel);
 
-				printf("Año %i", ainos[i]);
+			printf("NÚMERO DE PRISIONEROS POR AÑOS:\n");
+			for(int i = 2001; i < 2017; i++){
+				printf("%7i", i);
+			}
+			printf("\n");
+			for(int i = 0; i < 16; i++){
+				printf("%7i", ainos[i]);
 			}
 			
 		}
 	} while (result == SQLITE_ROW);
 
-	printf("\n");
 	printf("\n");
 
 	result = sqlite3_finalize(stmt);
@@ -278,10 +273,7 @@ int mostrarPrisionesPorEstado(sqlite3 *db, char estado[]){
 		return result;
 	}
 
-	printf("Prepared statement finalized (SELECT)\n");
-
 	return SQLITE_OK;
-
 }
 
 int mostrarPrisionesPorAino(sqlite3 *db, int aino){
@@ -295,7 +287,7 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
         return SQLITE_ERROR;
     }
 
-	sprintf(sqlPrision, "select jurisdiccion, incluyeCarcel, \"%d\" from Prision", aino);
+	sprintf(sqlPrision, "select jurisdiccion, incluyeCarcel, \"%d\" from Prision;", aino);
 
 	int result = sqlite3_prepare_v2(db, sqlPrision, -1, &stmt, NULL) ;
 	if (result != SQLITE_OK) {
@@ -304,12 +296,10 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
 		return result;
 	}
 
-	printf("SQL query prepared (SELECT)\n");
-
 	char jurisdiccion[100];
 	int incluyeCarcel;
 	int valorAino;
-
+	printf("%30s %16s %14s\n", "JURISDICCIÓN", "INCLUYE CÁRCEL", "PRISIONEROS");
 	do {
 		result = sqlite3_step(stmt) ;
 		if (result == SQLITE_ROW) {
@@ -317,12 +307,9 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
 			incluyeCarcel = sqlite3_column_int(stmt, 1);
 			valorAino =  sqlite3_column_int(stmt, 2);
 
-			printf("Jurisdiccion: %s, IncluyeCarcel: %i, Año: %i\n", jurisdiccion, incluyeCarcel, valorAino);
+			printf("%30s %16i %14i\n", jurisdiccion, incluyeCarcel, valorAino);
 		}
 	} while (result == SQLITE_ROW);
-
-	printf("\n");
-	printf("\n");
 
 	result = sqlite3_finalize(stmt);
 	if (result != SQLITE_OK) {
@@ -330,8 +317,6 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
-
-	printf("Prepared statement finalized (SELECT)\n");
 
 	return SQLITE_OK;
 }
@@ -408,7 +393,7 @@ int mostrarDelincuenciaPorAnyo(sqlite3 *db, int anyo) {
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
-	printf("%15s %15s %15s %15s %15s %15s %15s %15s\n", "JURISDICCIÓN", "POBLACIÓN",
+	printf("%16s %16s %16s %16s %16s %16s %16s %16s\n", "JURISDICCIÓN", "POBLACIÓN",
 		"PRISIONEROS", "CRIM.VIOLENTOS", "ASESINATOS", "VIOLACIONES", "ROBOS", "CRIM.PROPIEDAD");
 	do {
 		result = sqlite3_step(stmt);
@@ -422,7 +407,7 @@ int mostrarDelincuenciaPorAnyo(sqlite3 *db, int anyo) {
 			nRobo = sqlite3_column_int(stmt, 11);
 			nCrimenPropiedad = sqlite3_column_int(stmt, 13);
 
-			printf("%15s %15d %15d %15d %15d %15d %15d %15d\n", jurisdiccion, poblacion,
+			printf("%16s %16d %16d %16d %16d %16d %16d %16d\n", jurisdiccion, poblacion,
 				nPrisionero, nCrimenViolento, nAsesinato, nViolacion, nRobo, nCrimenPropiedad);
 			printf("\n");
 		}
@@ -499,6 +484,8 @@ int informeDelincuencia(sqlite3 *db, char *estado, int anyo) {
 	char *strAsesinato, *strViolacion, *strRobo, *strAsalto;
 	char c = '#';
 	char destfile[30];
+	estado[strlen(estado)-1] = '\0';
+	printf("%s, %d", estado, strlen(estado));
 	sprintf(destfile, "Inf-%s-%d.txt", estado, anyo);
 	char *sql = "SELECT * FROM Encarcelamiento WHERE (UPPER(jurisdiccion) = UPPER(?)) AND (anyo = ?);";
 	
@@ -509,70 +496,85 @@ int informeDelincuencia(sqlite3 *db, char *estado, int anyo) {
 		return result;
 	}
 
-	result = sqlite3_bind_text(stmt, 1, estado, -1, SQLITE_TRANSIENT);
+	result = sqlite3_bind_text(stmt, 1, estado, strlen(estado), SQLITE_STATIC);
+	if(result != SQLITE_OK) {
+		printf("Error añadiendo parametros al statement 1 (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_int(stmt, 2, anyo);
 	if(result != SQLITE_OK) {
 		printf("Error añadiendo parametros al statement (SELECT)\n");
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
 
+	printf("Abriendo fichero...\n");
 	f = fopen(destfile, "w");
+	if(f == NULL) {
+		printf("No se pudo abrir el fichero '%s'\n", destfile);
+	} else {
+		printf("Escribiendo en fichero...\n");
 
-	do {
-		result = sqlite3_step(stmt);
-		if (result == SQLITE_ROW) {
-			nPrisionero = sqlite3_column_int(stmt, 3);
-			estimacionCrimen = sqlite3_column_int(stmt, 5);
-			poblacion = sqlite3_column_int(stmt, 6);
-			nAsesinato = sqlite3_column_int(stmt, 8) / 1000;
-			nViolacion = sqlite3_column_int(stmt, 9) / 1000;
-			nRobo = sqlite3_column_int(stmt, 11) / 1000;
-			nAsalto = sqlite3_column_int(stmt, 12) / 1000;
-
-			strAsesinato = histStr(nAsesinato, c);
-			strViolacion = histStr(nViolacion, c);
-			strRobo = histStr(nRobo, c);
-			strAsalto = histStr(nAsalto, c);
-
-			fprintf(f, "===================================\n");
-			fprintf(f, "      INFORME DE DELINCUENCIA      \n");
-			fprintf(f, "===================================\n\n");
-
-			fprintf(f, "DATOS GENERALES\n");
-			fprintf(f, "Jurisdicción: %s\n", estado);
-			fprintf(f, "Año: %d\n\n", anyo);
-			fprintf(f, "Población: %d\n", poblacion);
-			fprintf(f, "Estimación de crímenes: %d\n", estimacionCrimen);
-			fprintf(f, "Número de prisioneros %d\n\n", nPrisionero);
-
-			fprintf(f, "HISTOGRAMA POR TIPO DE CRIMEN\n");
-			fprintf(f, "Cada '#' representan 1000 unidades.\n");
-			fprintf(f, "%15s: %s\n", "ASESINATOS", strAsesinato);
-			fprintf(f, "%15s: %s\n", "VIOLACIONES", strViolacion);
-			fprintf(f, "%15s: %s\n", "ROBOS", strRobo);
-			fprintf(f, "%15s: %s\n", "ASALTO.AGRAV", strAsalto);
-
-			free(strAsesinato);
-			strAsesinato = NULL;
-			free(strViolacion);
-			strViolacion = NULL;
-			free(strRobo);
-			strRobo = NULL;
-			free(strAsalto);
-			strAsalto = NULL;
-		}
-	} while(result == SQLITE_ROW);
-
-	fclose(f);
-
-	printf("Informe creado: %s\n", destfile);
+		do {
+			result = sqlite3_step(stmt);
+			if (result == SQLITE_ROW) {
+				printf("Aqui\n");
+				nPrisionero = sqlite3_column_int(stmt, 3);
+				estimacionCrimen = sqlite3_column_int(stmt, 5);
+				poblacion = sqlite3_column_int(stmt, 6);
+				nAsesinato = sqlite3_column_int(stmt, 8) / 1000;
+				nViolacion = sqlite3_column_int(stmt, 9) / 1000;
+				nRobo = sqlite3_column_int(stmt, 11) / 1000;
+				nAsalto = sqlite3_column_int(stmt, 12) / 1000;
+	
+				strAsesinato = histStr(nAsesinato, c);
+				strViolacion = histStr(nViolacion, c);
+				strRobo = histStr(nRobo, c);
+				strAsalto = histStr(nAsalto, c);
+	
+				fprintf(f, "===================================\n");
+				fprintf(f, "      INFORME DE DELINCUENCIA      \n");
+				fprintf(f, "===================================\n\n");
+	
+				fprintf(f, "DATOS GENERALES\n");
+				fprintf(f, "Jurisdicción: %s\n", estado);
+				fprintf(f, "Año: %d\n\n", anyo);
+				fprintf(f, "Población: %d\n", poblacion);
+				fprintf(f, "Estimación de crímenes: %d\n", estimacionCrimen);
+				fprintf(f, "Número de prisioneros %d\n\n", nPrisionero);
+	
+				fprintf(f, "HISTOGRAMA POR TIPO DE CRIMEN\n");
+				fprintf(f, "Cada '#' representan 1000 unidades.\n");
+				fprintf(f, "%15s: %s\n", "ASESINATOS", strAsesinato);
+				fprintf(f, "%15s: %s\n", "VIOLACIONES", strViolacion);
+				fprintf(f, "%15s: %s\n", "ROBOS", strRobo);
+				fprintf(f, "%15s: %s\n", "ASALTO.AGRAV", strAsalto);
+	
+				free(strAsesinato);
+				strAsesinato = NULL;
+				free(strViolacion);
+				strViolacion = NULL;
+				free(strRobo);
+				strRobo = NULL;
+				free(strAsalto);
+				strAsalto = NULL;
+			}
+		} while(result == SQLITE_ROW);
+	
+		printf("Cerrando fichero...\n");
+		fclose(f);
+	
+		printf("Informe creado: %s\n", destfile);
+	}
 
 	return SQLITE_OK;
 }
 
-int insertUsuario(sqlite3 *db, char *username, char *password) {
+int insertUsuario(sqlite3 *db, char *dni, char *username, char *password) {
     sqlite3_stmt *stmt;
-    const char *sql = "INSERT INTO Usuarios (username, password) VALUES (?, ?);";
+    const char *sql = "INSERT INTO Policia (dni, nombre, contraseña) VALUES (?, ?, ?);";
     int result;
 
     result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -581,8 +583,24 @@ int insertUsuario(sqlite3 *db, char *username, char *password) {
         return result;
     }
 
-    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, password, -1, SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt, 1, dni, -1, SQLITE_STATIC);
+	if(result != SQLITE_OK) {
+		printf("Error añadiendo parametros al statement (INSERT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+    sqlite3_bind_text(stmt, 2, username, -1, SQLITE_STATIC);
+	if(result != SQLITE_OK) {
+		printf("Error añadiendo parametros al statement (INSERT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+    sqlite3_bind_text(stmt, 3, password, -1, SQLITE_STATIC);
+	if(result != SQLITE_OK) {
+		printf("Error añadiendo parametros al statement (INSERT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
     result = sqlite3_step(stmt);
     if (result != SQLITE_DONE) {
@@ -592,6 +610,10 @@ int insertUsuario(sqlite3 *db, char *username, char *password) {
     }
 
     sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+        printf("Error finalizando el statement: %s\n", sqlite3_errmsg(db));
+        return result;
+    }
 
     printf("Usuario registrado correctamente en la base de datos.\n");
     return SQLITE_OK;
@@ -600,7 +622,7 @@ int insertUsuario(sqlite3 *db, char *username, char *password) {
 
 void mostrarUsuarios(sqlite3 *db) {
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT id, username FROM Usuarios;";
+    const char *sql = "SELECT dni, nombre FROM Policia;";
     int result;
 
     result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -623,13 +645,17 @@ void mostrarUsuarios(sqlite3 *db) {
         printf("Error al iterar sobre los resultados: %s\n", sqlite3_errmsg(db));
     }
 
-    sqlite3_finalize(stmt);
+    result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+        printf("Error finalizando el statement: %s\n", sqlite3_errmsg(db));
+        return;
+    }
 }
 
 void eliminarUsuario(sqlite3 *db) {
     sqlite3_stmt *stmt;
     char username[50];
-    const char *sql = "DELETE FROM Usuarios WHERE username = ?;";
+    const char *sql = "DELETE FROM Policia WHERE nombre = ?;";
     int result;
 
     printf("Introduce el nombre de usuario que quieres eliminar: ");
@@ -656,6 +682,7 @@ void eliminarUsuario(sqlite3 *db) {
 void modificarUsuario(sqlite3 *db) {
 
 }
+
 bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena) {
     sqlite3_stmt *stmt;
     const char *sql = "SELECT COUNT(*) FROM Policia WHERE nombre = ? AND contraseña = ?;";

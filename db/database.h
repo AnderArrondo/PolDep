@@ -20,10 +20,11 @@ int mostrarDelincuenciaPorEstado(sqlite3 *, char *);
 int informeDelincuencia(sqlite3 *, char *, int);
 
 void mostrarUsuarios(sqlite3 *db);
+int insertUsuario(sqlite3 *db, char *dni, char *username, char *password);
 void eliminarUsuario(sqlite3 *db);
 void modificarUsuario(sqlite3 *db);
 
- bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena);
+bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena);
 
 
 #endif

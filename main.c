@@ -8,6 +8,6 @@
 #include <stdbool.h>
 
 int main(void) {
-menu();
+    menu();
 }
 
