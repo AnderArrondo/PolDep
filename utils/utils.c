@@ -245,13 +245,14 @@ Crimen registrarCrimen() {
  * Imprime el título y las opciones a elegir sobre estadísticas de criminalidad
  */
 void printMenuEstadisticas() {
-    printf("==================================\n");
-    printf("#  ESTADÍSTICAS DE CRIMINALIDAD  #\n");
-    printf("==================================\n");
-    printf("1) Lista de criminales\n");
-    printf("2) Información sobre prisiones\n");
-    printf("3) Información sobre delincuencia\n");
-    printf("4) Salir\n");
+    printf("=========================================================\n");
+    printf("              ESTADÍSTICAS DE CRIMINALIDAD               \n");
+    printf("=========================================================\n");
+    printf("1- Lista de criminales\n");
+    printf("2- Información sobre prisiones\n");
+    printf("3- Información sobre delincuencia\n");
+    printf("4- Salir\n");
+    printf("----------------------\n");
 }
 
 /**
