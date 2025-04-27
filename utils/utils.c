@@ -93,17 +93,7 @@ void seleccion(sqlite3 *db) { //AÑADIR OPCION DE SALIDA AL MENU.
     }
 }
 
-void mostrarUsuarios(sqlite3 *db) {
 
-}
-
-void eliminarUsuario(sqlite3 *db) {
-
-}
-
-void modificarUsuario(sqlite3 *db) {
-
-}
 
 
 void menuRegistro(db){
@@ -301,22 +291,12 @@ void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
         }
 
         if(*opcionElegida == 1) {
-            char *estado = malloc(15 * sizeof(char));
-
-            printf("Introduzca una jurisdicción: ");
-            fgets(estado, 15, stdin);
-            printf("\n");
-
-            mostrarDelincuenciaPorEstado(db, estado);
-
-            free(estado);
-            estado = NULL;
+            // Datos por estado
+            mostrarListaCriminales(db);
         } else if(*opcionElegida == 2) {
             // Datos por año
-            mostrarDelincuenciaPorAnyo(db, 0);
         } else if(*opcionElegida == 3) {
             // Informe de delincuencia
-            // informeDelincuencia();
         } else {
             // salir
             salir = true;
@@ -343,7 +323,6 @@ void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
             // Información sobre prisioneros
         } else if(*opcionElegida == 3) {
             // Información sobre delincuencia
-            opcionDelincuencia(opcionElegida, db);
         } else {
             // salir
             salir = true;
@@ -434,23 +413,4 @@ void menu() {
 
     liberarBuffer();  
     return;
-}
-
-char *histStr(int n, char c) {
-    int i;
-    char *result;
-
-    if(n <= 0) {
-        result = malloc(sizeof(char));
-        result[0] = '\0';
-        return result;
-    }
-
-    result = malloc((n + 1) * sizeof(char));
-    for(i = 0; i < n; i++) {
-        result[i] = c;
-    }
-    result[n] = '\0';
-    
-    return result;
 }
