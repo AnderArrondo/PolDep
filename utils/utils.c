@@ -39,32 +39,60 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 }
 
 
-void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
-    printf("=========================================================\n");
-    printf("                    ADMINISTRAR USUARIOS                 \n");
-    printf("=========================================================\n");
-    printf("1. Ver todos los usuarios\n");
-    printf("2. Agregar nuevo usuario\n");
-    printf("3. Eliminar usuario\n");
-    printf("4. Modificar usuario\n");
-    printf("----------------------\n");
-    printf("Selecione una opcion: ");
-}
+// void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
+//     printf("=========================================================\n");
+//     printf("                    ADMINISTRAR USUARIOS                 \n");
+//     printf("=========================================================\n");
+//     printf("1. Ver todos los usuarios\n");
+//     printf("2. Agregar nuevo usuario\n");
+//     printf("3. Eliminar usuario\n");
+//     printf("4. Modificar usuario\n");
+//     printf("----------------------\n");
+//     printf("Selecione una opcion: ");
+// }
+// INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
+ // EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
+void seleccion(sqlite3 *db) {
+    int opcion = 0;
+    bool opcionValida = false;
+    int maxValor = 4;
 
-void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
-                            // EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
+    while (!opcionValida) {
+        printf("=========================================================\n");
+        printf("                 ADMINISTRAR USUARIOS                    \n");
+        printf("=========================================================\n");
+        printf("1. Ver todos los usuarios\n");
+        printf("2. Agregar nuevo usuario\n");
+        printf("3. Eliminar usuario\n");
+        printf("4. Modificar usuario\n");
+        printf("----------------------\n");
+        printf("Seleccione una opción: ");
+        scanf("%d", &opcion);
+
+        validarInputMenu(maxValor, &opcion, &opcionValida);
+    }
+
     if (opcion == 1) {
-        
-    } else if (opcion == 2) {
-
-    } else if (opcion == 3) {
-        
-    } else if (opcion == 4) {
-        
-    } else {
-        printf("Selecciona una opción válida\n");
+        printf("Mostrando todos los usuarios...\n");
+        mostrarUsuarios(db); 
+    } 
+    else if (opcion == 2) {
+        printf("Agregando nuevo usuario...\n");
+        menuRegistro(db); 
+    } 
+    else if (opcion == 3) {
+        printf("Eliminando un usuario...\n");
+        eliminarUsuario(db); 
+    } 
+    else if (opcion == 4) {
+        printf("Modificando un usuario...\n");
+        modificarUsuario(db); 
+    } 
+    else {
+        printf("Selecciona una opción válida.\n");
     }
 }
+
 
 
 void menuRegistro(db){
