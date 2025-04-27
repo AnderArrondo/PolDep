@@ -6,6 +6,7 @@
 #include "./../modules/criminal.h"
 #include "./../modules/crimen.h"
 #include <string.h>
+#include <stdbool.h>
 
 #define BUFFER_SIZE 1024
 
@@ -581,35 +582,6 @@ void eliminarUsuario(sqlite3 *db) {
 }
 
 void modificarUsuario(sqlite3 *db) {
-    sqlite3_stmt *stmt;
-    char username[50];
-    char newPassword[50];
-    const char *sql = "UPDATE Usuarios SET password = ? WHERE username = ?;";
-    int result;
 
-    printf("Introduce el nombre de usuario que quieres modificar: ");
-    scanf("%s", username);
-
-    printf("Introduce la nueva contraseña: ");
-    scanf("%s", newPassword);
-
-    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-    if (result != SQLITE_OK) {
-        printf("Error preparando el statement: %s\n", sqlite3_errmsg(db));
-        return;
-    }
-
-    sqlite3_bind_text(stmt, 1, newPassword, -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, username, -1, SQLITE_STATIC);
-
-    result = sqlite3_step(stmt);
-    if (result != SQLITE_DONE) {
-        printf("Error ejecutando el statement: %s\n", sqlite3_errmsg(db));
-    } else {
-        printf("Contraseña actualizada correctamente para el usuario '%s'.\n", username);
-    }
-
-    sqlite3_finalize(stmt);
 }
-
 
