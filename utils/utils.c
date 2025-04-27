@@ -412,12 +412,6 @@ void menu() {
            
 
         } else if (opcion == 3) {
-<<<<<<< HEAD
-            printf("Visualizacion de Estadisticas\n");
-            opcionEstadisticas(NULL, NULL);
-        } else if (opcion == 4) {
-            printf("Salir\n");
-=======
             printf("Visualización de estadísticas\n");
             int opciondelasestadisticas = printMenuEstadisticas();
 
@@ -430,7 +424,6 @@ void menu() {
         } else if (opcion == 4) {
             printf("Salir\n");
             //no tenemos todavia metodo  de salir
->>>>>>> f94983c159eabb8ecaf1b7c8d4db54ebeffe2f16
         }
     }
 
@@ -443,7 +436,6 @@ void menu() {
     liberarBuffer();  
     return;
 }
-<<<<<<< HEAD
 
 char *histStr(int n, char c) {
     int i;
@@ -463,5 +455,3 @@ char *histStr(int n, char c) {
     
     return result;
 }
-=======
->>>>>>> f94983c159eabb8ecaf1b7c8d4db54ebeffe2f16
