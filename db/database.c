@@ -267,7 +267,7 @@ int mostrarListaCriminales(sqlite3 *db) {
 	int id, result;
 	Criminal c;
 	c.nombre = malloc(20 * sizeof(char));
-	c.apelido = malloc(20 * sizeof(char));
+	c.apellido = malloc(20 * sizeof(char));
 	c.genero = malloc(sizeof(char));
 	c.ciudadNacimiento = malloc(25 * sizeof(char));
 	c.estadoCivil = malloc(15 * sizeof(char));
@@ -287,7 +287,7 @@ int mostrarListaCriminales(sqlite3 *db) {
 		if (result == SQLITE_ROW) {
 			id = sqlite3_column_int(stmt, 0);
 			strcpy(c.nombre, (char *) sqlite3_column_text(stmt, 1));
-			strcpy(c.apelido, (char *) sqlite3_column_text(stmt, 2));
+			strcpy(c.apellido, (char *) sqlite3_column_text(stmt, 2));
 			c.edad = sqlite3_column_int(stmt, 3);
 			strcpy(c.genero, (char *) sqlite3_column_text(stmt, 4));
 			strcpy(c.ciudadNacimiento, (char *) sqlite3_column_text(stmt, 5));
@@ -305,7 +305,7 @@ int mostrarListaCriminales(sqlite3 *db) {
 	}
 
 	free(c.nombre);
-	free(c.apelido);
+	free(c.apellido);
 	free(c.genero);
 	free(c.ciudadNacimiento);
 	free(c.estadoCivil);
@@ -496,3 +496,32 @@ int informeDelincuencia(sqlite3 *db, char *estado, int anyo) {
 
 	return SQLITE_OK;
 }
+
+int insertUsuario(sqlite3 *db, char *username, char *password) {
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO Usuarios (username, password) VALUES (?, ?);";
+    int result;
+
+    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        printf("Error preparando el statement: %s\n", sqlite3_errmsg(db));
+        return result;
+    }
+
+    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, password, -1, SQLITE_STATIC);
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        printf("Error ejecutando el statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return result;
+    }
+
+    sqlite3_finalize(stmt);
+
+    printf("Usuario registrado correctamente en la base de datos.\n");
+    return SQLITE_OK;
+}
+
+

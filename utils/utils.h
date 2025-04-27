@@ -8,11 +8,14 @@
 void menu();
 void seleccion(int opcion);
 void printMenuRegistro();
-void menuRegistro(int *);
+void menuRegistro();
 void printMenuBD();
 void bdMenuRegistro(int *opcion);
-Crimen registrarCrimen();
 void opcionEstadisticas(int *, sqlite3 *db);
 char *histStr(int, char);
+void menuRegistro();
+void registrarCrimen(sqlite3 *db);
+void opcionEstadisticas(int *, sqlite3 db);
+void menuRegistro(db);
 
 #endif

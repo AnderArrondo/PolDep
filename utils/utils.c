@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "./../db/database.h"
-
+#include "../db/sqlite3.h"
 /**
  * Vacía el buffer de entrada
  */
@@ -38,87 +38,92 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
     liberarBuffer();
 }
 
-void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
-    printf("----------------------\n");
-    printf("ADMINISTRAR USUARIOS\n");
-    printf("----------------------\n");
-    printf("1) Ver todos los usuarios\n");
-    printf("2) Agregar nuevo usuario\n");
-    printf("3) Eliminar usuario\n");
-    printf("4) Modificar usuario\n");
-    printf("----------------------\n");
-    printf("Selecione una opcion: ");
-}
 
-void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
-                            // EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
+// void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
+//     printf("=========================================================\n");
+//     printf("                    ADMINISTRAR USUARIOS                 \n");
+//     printf("=========================================================\n");
+//     printf("1. Ver todos los usuarios\n");
+//     printf("2. Agregar nuevo usuario\n");
+//     printf("3. Eliminar usuario\n");
+//     printf("4. Modificar usuario\n");
+//     printf("----------------------\n");
+//     printf("Selecione una opcion: ");
+// }
+
+// INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE PONER UN BUCLE PARA PEDIRLE LOS DATOS HASTA QUE SEAN CORRECTOS,
+// EN MENU REGUSTRO EJEMPLO DE ESO Y OPCION ESTADISTICAS EL COMO HACERLO, 
+void seleccion(sqlite3 *db) {
+    int opcion = 0;
+    bool opcionValida = false;
+    int maxValor = 4;
+
+    while (!opcionValida) {
+        printf("=========================================================\n");
+        printf("                 ADMINISTRAR USUARIOS                    \n");
+        printf("=========================================================\n");
+        printf("1. Ver todos los usuarios\n");
+        printf("2. Agregar nuevo usuario\n");
+        printf("3. Eliminar usuario\n");
+        printf("4. Modificar usuario\n");
+        printf("----------------------\n");
+        printf("Seleccione una opción: ");
+        scanf("%d", &opcion);
+
+        validarInputMenu(maxValor, &opcion, &opcionValida);
+    }
+
     if (opcion == 1) {
-        
-    } else if (opcion == 2) {
-
-    } else if (opcion == 3) {
-        
-    } else if (opcion == 4) {
-        
-    } else {
-        printf("Selecciona una opción válida\n");
+        printf("Mostrando todos los usuarios...\n");
+        mostrarUsuarios(db); //ESTA FUNCION HAY QUE HACERLA
+    } 
+    else if (opcion == 2) {
+        printf("Agregando nuevo usuario...\n");
+        menuRegistro(db); 
+    } 
+    else if (opcion == 3) {
+        printf("Eliminando un usuario...\n");
+        eliminarUsuario(db); //ESTA FUNCION HAY QUE HACERLA
+    } 
+    else if (opcion == 4) {
+        printf("Modificando un usuario...\n");
+        modificarUsuario(db); //ESTA FUNCION HAY QUE HACERLA
+    } 
+    else {
+        printf("Selecciona una opción válida.\n");
     }
 }
 
+void mostrarUsuarios(sqlite3 *db) {
 
-//MENU CREADO ABAJO PARA PODER AÑADIR LAS FUNCIONES QUE ESTEN YA DECLARADAS!!!!!!!!
-void printMenuRegistro(){
-
-    printf("=========================================================\n");
-    printf("                   DEPARTAMENTO DE POLICIA                   \n");
-    printf("=========================================================\n");
-    printf("1- Administrar datos policia.\n");
-    printf("2- Añadir crimen.\n");
-    printf("3- Visualizar estadisticas.\n");
-    printf("4- Salir.\n");
-    printf("----------------------\n");
 }
 
-void menuRegistro(int *opcion){
+void eliminarUsuario(sqlite3 *db) {
 
-    bool seguir = false;
-    int maxValue = 4;
-    printf("Seleccione una opcion: \n");
-
-    while(seguir == false){
-
-        printMenuRegistro();
-        scanf("%i", opcion);
-        validarInputMenu(maxValue, opcion, &seguir);
-    }
-    
-
-    while(seguir == true){
-
-        if(*opcion == 1){
-
-
-        }
-        else if(*opcion == 2){
-
-
-        }
-        else if(*opcion == 3){
-
-
-        }
-        else if(*opcion == 4){
-
-            seguir = false;
-        }
-
-        printMenuRegistro();
-        scanf("%i", opcion);
-        validarInputMenu(maxValue, opcion, &seguir);
-    }
 }
 
-void printMenuBD(){
+void modificarUsuario(sqlite3 *db) {
+
+}
+
+
+void menuRegistro(db){
+    //Creada la funcion de la base de datos pero no la tabala de la base de datos
+    char username[100];
+    char password[100];
+    printf("Ingrese su nombre de usuario: ");
+    scanf("%s", username);
+
+    printf("Ingrese su contraseña: ");
+    scanf("%s", password);
+
+    insertUsuario( db, username, password);
+}
+
+
+
+
+void printMenuBD(){ //no estiendo esto para que es
 
     printf("=========================================================\n");
     printf("                   ESTADISTICAS DE PRISIONEROS                   \n");
@@ -165,23 +170,23 @@ void bdMenuRegistro(int *opcion){
 
 }
 
-Crimen registrarCrimen() {
+void registrarCrimen(sqlite3 *db) {
     printf("=========================================================\n");
     printf("                   REGISTRO DE CRIMEN                   \n");
     printf("=========================================================\n");
 
    
-    char *nombre = (char *)malloc(100);
-    char *apellido = (char *)malloc(100);
+    char *nombre = (char *)malloc(100 * sizeof(char));
+    char *apellido = (char *)malloc(100 * sizeof(char));
     int *edad = (int *)malloc(sizeof(int));
-    char *genero = (char *)malloc(20);
-    char *estadoCivil = (char *)malloc(20);
-    char *ciudadNacimiento = (char *)malloc(100);
-    char *dni = (char *)malloc(20);
-    char *descripcion = (char *)malloc(200);
-    char *anioStr = (char *)malloc(5);
+    char *genero = (char *)malloc(20 * sizeof(char));
+    char *estadoCivil = (char *)malloc(20 * sizeof(char));
+    char *ciudadNacimiento = (char *)malloc(100 * sizeof(char));
+    char *dni = (char *)malloc(20 * sizeof(char));
+    char *descripcion = (char *)malloc(200 * sizeof(char));
+    int *anio = (int *)malloc(sizeof(int));
 
-    
+   
     printf("Ingrese el nombre: ");
     scanf("%s", nombre);
 
@@ -207,44 +212,53 @@ Crimen registrarCrimen() {
     scanf("%s", descripcion);
 
     printf("Ingrese el año del crimen: ");
-    scanf("%s", anioStr);
+    scanf("%d", anio);
 
-   
-    Criminal *c = malloc(sizeof(Criminal));
-    c->nombre = strdup(nombre);
-    c->apelido = strdup(apellido);
+    
+    Criminal *c = (Criminal *)malloc(sizeof(Criminal));
+    if (!c) {
+        printf("Error reservando memoria para el Criminal.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    c->nombre = nombre;
+    c->apellido = apellido;
     c->edad = *edad;
-    c->genero = strdup(genero);
-    c->estadoCivil = strdup(estadoCivil);
-    c->ciudadNacimiento = strdup(ciudadNacimiento);
+    c->genero = genero;
+    c->estadoCivil = estadoCivil;
+    c->ciudadNacimiento = ciudadNacimiento;
 
     Crimen crimen;
     crimen.autor = c;
-    crimen.dni = strdup(dni);
-    crimen.descripcion = strdup(descripcion);
-    crimen.aino = atoi(anioStr);
+    crimen.dni = dni;
+    crimen.descripcion = descripcion;
+    crimen.aino = *anio;
 
     
-    free(nombre);
-    free(apellido);
+    insertNewCrime(db, crimen); //lo meto mejor directamente en la base de datos que desde el main
+
+   
+   //libero la memoria 
+    if (crimen.autor != NULL) {
+        if (crimen.autor->nombre) free(crimen.autor->nombre);
+        if (crimen.autor->apellido) free(crimen.autor->apellido);
+        if (crimen.autor->genero) free(crimen.autor->genero);
+        if (crimen.autor->estadoCivil) free(crimen.autor->estadoCivil);
+        if (crimen.autor->ciudadNacimiento) free(crimen.autor->ciudadNacimiento);
+        free(crimen.autor);
+    }
+
+    if (crimen.dni) free(crimen.dni);
+    if (crimen.descripcion) free(crimen.descripcion);
     free(edad);
-    free(genero);
-    free(estadoCivil);
-    free(ciudadNacimiento);
-    free(dni);
-    free(descripcion);
-    free(anioStr);
-    
-
-    return crimen;
+    free(anio);
 }
- 
 
 
-/**
- * Imprime el título y las opciones a elegir sobre estadísticas de criminalidad
- */
-void printMenuEstadisticas() {
+
+
+int printMenuEstadisticas() {
+    int opcion;
     printf("=========================================================\n");
     printf("              ESTADÍSTICAS DE CRIMINALIDAD               \n");
     printf("=========================================================\n");
@@ -253,9 +267,15 @@ void printMenuEstadisticas() {
     printf("3- Información sobre delincuencia\n");
     printf("4- Salir\n");
     printf("----------------------\n");
+    printf("Ingrese una opción: ");
+    scanf("%d", &opcion);  
+
+    return opcion;         
 }
 
-void printMenuDelincuencia() {
+
+int printMenuDelincuencia() {
+    int opcion;
     printf("=========================================================\n");
     printf("              ESTADÍSTICAS DE DELINCUENCIA               \n");
     printf("=========================================================\n");
@@ -264,6 +284,10 @@ void printMenuDelincuencia() {
     printf("3- Informe de delincuencia\n");
     printf("4- Salir\n");
     printf("----------------------\n");
+    printf("Ingrese una opción: ");
+    scanf("%d", &opcion);
+
+    return opcion;
 }
 
 void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
@@ -301,9 +325,7 @@ void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
     }
 }
 
-/**
- * Inicia un bucle que acaba cuando opcionElegida tenga un valor válido.
- */
+
 void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
     bool isValid = false;
     bool salir = false;
@@ -330,7 +352,30 @@ void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
     }
 }
 
+
+
 void menu() {
+    sqlite3 *db;
+    bool dbcargada = false;
+
+    int result = sqlite3_open("./db/data.sqlite3", &db);
+    if (result != SQLITE_OK) {
+        printf("Error opening database\n");
+        return;  
+    } else {
+        dbcargada = true;
+    }
+
+    if (dbcargada) {
+        char *filenames[2] = {
+            "./data/crime_and_incarceration_by_state.csv",
+            "./data/prison_custody_by_state.csv"
+        };
+        csv_to_db(filenames, 2, db);
+    }
+
+    menuRegistro(db);
+
     int opcion = 0;
     bool opcionValida = false;
     int maxValor = 4;
@@ -342,34 +387,63 @@ void menu() {
             printf("=========================================================\n");
             printf("                    POLICIA DEUSTO                       \n");
             printf("=========================================================\n");
-            printf("Selecione una de esta opciones:\n");
-            printf("1- Administrar datos policia\n");
-            printf("2- Añadir crimen\n");
-            printf("3- Visualizar estadisticas\n");
-            printf("4- Salir\n");
+            printf("Seleccione una de estas opciones:\n");
+            printf("1 - Administrar datos policia\n");
+            printf("2 - Añadir crimen\n");
+            printf("3 - Visualizar estadísticas\n");
+            printf("4 - Salir\n");
             printf("----------------------\n");
             scanf("%d", &opcion);
 
             if (opcion >= 1 && opcion <= maxValor) {
                 opcionValida = true;
             } else {
-                printf("Opcion no valida. Intentelo de nuevo\n");
+                printf("Opción no válida. Inténtelo de nuevo\n");
             }
         }
-    //meter vuestrats fucniones aqui
+
         if (opcion == 1) {
-            printf("Administratcion de datos\n");
+            printf("Administración de datos\n");
+            menuadministrar();
+
         } else if (opcion == 2) {
             printf("Agregar crimen\n");
-            Crimen registrarCrimen();
+            registrarCrimen(db);
+           
+
         } else if (opcion == 3) {
+<<<<<<< HEAD
             printf("Visualizacion de Estadisticas\n");
             opcionEstadisticas(NULL, NULL);
         } else if (opcion == 4) {
             printf("Salir\n");
+=======
+            printf("Visualización de estadísticas\n");
+            int opciondelasestadisticas = printMenuEstadisticas();
+
+            if (opciondelasestadisticas == 3) {
+                int opcion3 = printMenuDelincuencia();
+                opcionDelincuencia(opcion3, db);
+            }
+            opcionEstadisticas(opciondelasestadisticas, db);
+
+        } else if (opcion == 4) {
+            printf("Salir\n");
+            //no tenemos todavia metodo  de salir
+>>>>>>> f94983c159eabb8ecaf1b7c8d4db54ebeffe2f16
         }
     }
+
+    result = sqlite3_close(db);
+    if (result != SQLITE_OK) {
+        printf("Error cerrando la base de datos\n");
+        printf("%s\n", sqlite3_errmsg(db));
+    }
+
+    liberarBuffer();  
+    return;
 }
+<<<<<<< HEAD
 
 char *histStr(int n, char c) {
     int i;
@@ -389,3 +463,5 @@ char *histStr(int n, char c) {
     
     return result;
 }
+=======
+>>>>>>> f94983c159eabb8ecaf1b7c8d4db54ebeffe2f16
