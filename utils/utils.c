@@ -38,9 +38,9 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 }
 
 void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
-    printf("----------------------\n");
-    printf("ADMINISTRAR USUARIOS\n");
-    printf("----------------------\n");
+    printf("=========================================================\n");
+    printf("                    ADMINISTRAR USUARIOS                 \n");
+    printf("=========================================================\n");
     printf("1) Ver todos los usuarios\n");
     printf("2) Agregar nuevo usuario\n");
     printf("3) Eliminar usuario\n");
