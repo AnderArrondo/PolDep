@@ -242,7 +242,7 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
 		if (result == SQLITE_ROW) {
 			strcpy(jurisdiccion, (char *) sqlite3_column_text(stmt, 0));
 			incluyeCarcel = sqlite3_column_int(stmt, 1);
-			aino =  sqlite3_column_int(stmt, 2);
+			valorAino =  sqlite3_column_int(stmt, 2);
 
 			printf("Jurisdiccion: %s, IncluyeCarcel: %i, Año: %i\n", jurisdiccion, incluyeCarcel, valorAino);
 		}
@@ -313,7 +313,7 @@ int mostrarListaCriminales(sqlite3 *db) {
 	return SQLITE_OK;
 }
 
-int mostrarDelincuenciaPorAño(sqlite3 *db, int anyo) {
+int mostrarDelincuenciaPorAnyo(sqlite3 *db, int anyo) {
 	int result;
 	sqlite3_stmt *stmt;
 
@@ -421,7 +421,7 @@ int mostrarDelincuenciaPorEstado(sqlite3 *db, char *estado) {
 
 int informeDelincuencia(sqlite3 *db, char *estado, int anyo) {
 	FILE *f;
-	sqlite3 *stmt;
+	sqlite3_stmt *stmt;
 	int result, estimacionCrimen, poblacion, nPrisionero, nAsesinato, nViolacion, nRobo, nAsalto;
 	char *strAsesinato, *strViolacion, *strRobo, *strAsalto;
 	char c = '#';
@@ -456,10 +456,10 @@ int informeDelincuencia(sqlite3 *db, char *estado, int anyo) {
 			nRobo = sqlite3_column_int(stmt, 11) / 1000;
 			nAsalto = sqlite3_column_int(stmt, 12) / 1000;
 
-			*strAsesinato = histStr(nAsesinato, c);
-			*strViolacion = histStr(nViolacion, c);
-			*strRobo = histStr(nRobo, c);
-			*strAsalto = histStr(nAsalto, c);
+			strAsesinato = histStr(nAsesinato, c);
+			strViolacion = histStr(nViolacion, c);
+			strRobo = histStr(nRobo, c);
+			strAsalto = histStr(nAsalto, c);
 
 			fprintf(f, "===================================\n");
 			fprintf(f, "      INFORME DE DELINCUENCIA      \n");
@@ -492,7 +492,7 @@ int informeDelincuencia(sqlite3 *db, char *estado, int anyo) {
 
 	fclose(f);
 
-	fprintf("Informe creado: %s\n", destfile);
+	printf("Informe creado: %s\n", destfile);
 
 	return SQLITE_OK;
 }

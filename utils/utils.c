@@ -278,11 +278,22 @@ void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
         }
 
         if(*opcionElegida == 1) {
-            // Datos por estado
+            char *estado = malloc(15 * sizeof(char));
+
+            printf("Introduzca una jurisdicción: ");
+            fgets(estado, 15, stdin);
+            printf("\n");
+
+            mostrarDelincuenciaPorEstado(db, estado);
+
+            free(estado);
+            estado = NULL;
         } else if(*opcionElegida == 2) {
             // Datos por año
+            mostrarDelincuenciaPorAnyo(db, 0);
         } else if(*opcionElegida == 3) {
             // Informe de delincuencia
+            // informeDelincuencia();
         } else {
             // salir
             salir = true;
@@ -311,6 +322,7 @@ void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
             // Información sobre prisioneros
         } else if(*opcionElegida == 3) {
             // Información sobre delincuencia
+            opcionDelincuencia(opcionElegida, db);
         } else {
             // salir
             salir = true;
@@ -352,6 +364,7 @@ void menu() {
             Crimen registrarCrimen();
         } else if (opcion == 3) {
             printf("Visualizacion de Estadisticas\n");
+            opcionEstadisticas(NULL, NULL);
         } else if (opcion == 4) {
             printf("Salir\n");
         }
@@ -362,12 +375,7 @@ char *histStr(int n, char c) {
     int i;
     char *result;
 
-    if(n == NULL) {
-        result = malloc(2 * sizeof(char));
-        result[0] = 'X';
-        result[1] = '\0';
-        return result;
-    } else if(n <= 0) {
+    if(n <= 0) {
         result = malloc(sizeof(char));
         result[0] = '\0';
         return result;
