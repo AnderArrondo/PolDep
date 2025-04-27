@@ -1,6 +1,7 @@
 
 #include "./sqlite3.h"
 #include "./../modules/crimen.h"
+#include <stdbool.h>
 
 #ifndef DATABASE_H
 #define DATABASE_H
@@ -21,5 +22,8 @@ int informeDelincuencia(sqlite3 *, char *, int);
 void mostrarUsuarios(sqlite3 *db);
 void eliminarUsuario(sqlite3 *db);
 void modificarUsuario(sqlite3 *db);
+
+ bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena);
+
 
 #endif
