@@ -8,7 +8,10 @@ void menu();
 void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro();
+void printMenuBD();
+void bdMenuRegistro(int *opcion);
+void menuRegistro();
 Crimen registrarCrimen();
-void opcionEstadisticas(int *);
+void opcionEstadisticas(int *, sqlite3 db);
 
 #endif

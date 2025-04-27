@@ -5,9 +5,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./db/database.h"
+#include "./../db/database.h"
 #include "../db/sqlite3.h"
-
 /**
  * Vacía el buffer de entrada
  */
@@ -39,8 +38,8 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
     liberarBuffer();
 }
 
-void menuadministrar(int opcion){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
-    printf("----------------------\n");
+void menuadministrar(){ //CAMBIAR EL FORMATO AL FORMTAO 2 DE WASSAP
+    printf("----------------------\n"); //no lo pases por parametro
     printf("ADMINISTRAR USUARIOS\n");
     printf("----------------------\n");
     printf("1) Ver todos los usuarios\n");
@@ -69,18 +68,68 @@ void seleccion(int opcion) { // INT OPCION UN PUNTERO, ANTES DE LOS IF HAYQ UE P
 
 void menuRegistro(){
     //Creada la funcion de la base de datos pero no la tabala de la base de datos
-   char username[100];
+    char username[100];
     char password[100];
-
     printf("Ingrese su nombre de usuario: ");
     scanf("%s", username);
 
     printf("Ingrese su contraseña: ");
     scanf("%s", password);
 
- 
+    printf("\nUsuario registrado correctamente.\n");
+    printf("Usuario: %s\n", username);
+    printf("Contraseña: %s\n", password);
 
-    
+}
+
+
+
+
+void printMenuBD(){
+
+    printf("=========================================================\n");
+    printf("                   ESTADISTICAS DE PRISIONEROS                   \n");
+    printf("=========================================================\n");
+    printf("1- Mostrar prisiones por estado.\n");
+    printf("2- Mostrar prisiones por año.\n");
+    printf("3. Salir.\n");
+}
+
+void bdMenuRegistro(int *opcion){
+
+    bool seguir = false;
+    int maxValue = 3;
+    printf("Seleccione una opcion: \n");
+
+    while(seguir == false){
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
+    }
+
+
+    while(seguir == true){
+
+        if(*opcion == 1){
+
+            //metodo de mostrar prisiones por estado
+        }
+        else if(*opcion == 2){
+
+            //metodo de mostrar prisiones por año
+        }
+        else if(*opcion == 3){
+
+            seguir = false;
+        }
+
+        printMenuRegistro();
+        scanf("%i", opcion);
+        validarInputMenu(maxValue, opcion, &seguir);
+    }
+
+
 }
 
 Crimen registrarCrimen() {
@@ -156,42 +205,98 @@ Crimen registrarCrimen() {
 
     return crimen;
 }
+
  
 
 
 /**
  * Imprime el título y las opciones a elegir sobre estadísticas de criminalidad
  */
-void printMenuEstadisticas() {
-    printf("==================================\n");
-    printf("#  ESTADÍSTICAS DE CRIMINALIDAD  #\n");
-    printf("==================================\n");
-    printf("1) Lista de criminales\n");
-    printf("2) Información sobre prisiones\n");
-    printf("3) Información sobre delincuencia\n");
-    printf("4) Salir\n");
+#include <stdio.h>
+
+int printMenuEstadisticas() {
+    int opcion;
+    printf("=========================================================\n");
+    printf("              ESTADÍSTICAS DE CRIMINALIDAD               \n");
+    printf("=========================================================\n");
+    printf("1- Lista de criminales\n");
+    printf("2- Información sobre prisiones\n");
+    printf("3- Información sobre delincuencia\n");
+    printf("4- Salir\n");
+    printf("----------------------\n");
+    printf("Ingrese una opción: ");
+    scanf("%d", &opcion);  
+
+    return opcion;         
+}
+
+
+int printMenuDelincuencia() {
+    int opcion;
+    printf("=========================================================\n");
+    printf("              ESTADÍSTICAS DE DELINCUENCIA               \n");
+    printf("=========================================================\n");
+    printf("1- Datos por estado\n");
+    printf("2- Datos por año\n");
+    printf("3- Informe de delincuencia\n");
+    printf("4- Salir\n");
+    printf("----------------------\n");
+    printf("Ingrese una opción: ");
+    scanf("%d", &opcion);
+
+    return opcion;
+}
+
+void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
+    bool isValid = false;
+    bool salir = false;
+    int maxVal = 4;
+
+    while(!salir) {
+        while(!isValid) {
+            printMenuDelincuencia();
+            validarInputMenu(maxVal, opcionElegida, &isValid);
+        }
+
+        if(*opcionElegida == 1) {
+            // Datos por estado
+            mostrarListaCriminales(db);
+        } else if(*opcionElegida == 2) {
+            // Datos por año
+        } else if(*opcionElegida == 3) {
+            // Informe de delincuencia
+        } else {
+            // salir
+            salir = true;
+        }
+    }
 }
 
 /**
  * Inicia un bucle que acaba cuando opcionElegida tenga un valor válido.
  */
-void opcionEstadisticas(int *opcionElegida) {
+void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
     bool isValid = false;
+    bool salir = false;
     int maxVal = 4;
 
-    while(!isValid) {
-        printMenuEstadisticas();
-        validarInputMenu(maxVal, opcionElegida, &isValid);
-    }
-
-    if(*opcionElegida == 1) {
-        // Lista de criminales
-    } else if(*opcionElegida == 2) {
-        // Información sobre prisioneros
-    } else if(*opcionElegida == 3) {
-        // Información sobre delincuencia
-    } else {
-        // salir
+    while(!salir) {
+        while(!isValid) {
+            printMenuEstadisticas();
+            validarInputMenu(maxVal, opcionElegida, &isValid);
+        }
+    
+        if(*opcionElegida == 1) {
+            // Lista de criminales
+            mostrarListaCriminales(db);
+        } else if(*opcionElegida == 2) {
+            // Información sobre prisioneros
+        } else if(*opcionElegida == 3) {
+            // Información sobre delincuencia
+        } else {
+            // salir
+            salir = true;
+        }
     }
 }
 
@@ -243,6 +348,7 @@ void menu() {
 
         if (opcion == 1) {
             printf("Administración de datos\n");
+             menuadministrar();
             
 
         } else if (opcion == 2) {
@@ -251,7 +357,11 @@ void menu() {
             insertNewCrime(db, crimenInsertar);
 
         } else if (opcion == 3) {
+            int opcion = 0;
             printf("Visualización de estadísticas\n");
+            opcion =  printMenuEstadisticas();
+            opcionEstadisticas(opcion,db);
+            
 
         } else if (opcion == 4) {
             printf("Salir\n");
