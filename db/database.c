@@ -223,7 +223,7 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
         return SQLITE_ERROR;
     }
 
-	sprintf(sqlPrision, "select jurisdiccion, incluyeCarcel, \"%d\" from Prision where \"%d\" > 0;", aino, aino);
+	sprintf(sqlPrision, "select jurisdiccion, incluyeCarcel, \"%d\" from Prision", aino);
 
 	int result = sqlite3_prepare_v2(db, sqlPrision, -1, &stmt, NULL) ;
 	if (result != SQLITE_OK) {
@@ -527,47 +527,61 @@ int insertUsuario(sqlite3 *db, char *username, char *password) {
 
 
 void mostrarUsuarios(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT id, username FROM Usuarios;";
+    int result;
 
+    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        printf("Error preparando el statement: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    printf("\nLista de usuarios registrados:\n");
+    printf("------------------------------\n");
+
+    while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
+        int id = sqlite3_column_int(stmt, 0);
+        const unsigned char *username = sqlite3_column_text(stmt, 1);
+
+        printf("ID: %d | Usuario: %s\n", id, username);
+    }
+
+    if (result != SQLITE_DONE) {
+        printf("Error al iterar sobre los resultados: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(stmt);
 }
 
 void eliminarUsuario(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    char username[50];
+    const char *sql = "DELETE FROM Usuarios WHERE username = ?;";
+    int result;
 
+    printf("Introduce el nombre de usuario que quieres eliminar: ");
+    scanf("%s", username);
+
+    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        printf("Error preparando el statement: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        printf("Error ejecutando el statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        printf("Usuario '%s' eliminado correctamente.\n", username);
+    }
+
+    sqlite3_finalize(stmt);
 }
 
 void modificarUsuario(sqlite3 *db) {
 
 }
-bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena) {
-    sqlite3_stmt *stmt;
-    const char *sql = "SELECT COUNT(*) FROM Policia WHERE nombre = ? AND contraseña = ?;";
-    int result;
 
-    result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-    if (result != SQLITE_OK) {
-        printf("Error preparando statement: %s\n", sqlite3_errmsg(db));
-        return false;
-    }
-
-
-    sqlite3_bind_text(stmt, 1, nombre, -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, contrasena, -1, SQLITE_STATIC);
-
-  
-    result = sqlite3_step(stmt);
-    if (result == SQLITE_ROW) {
-        int count = sqlite3_column_int(stmt, 0);
-
-        sqlite3_finalize(stmt);
-
-        if (count > 0) {
-            return true;   // Existe devuleve true
-        } else {
-            return false;  // sino false
-        }
-    } else {
-        printf("Error ejecutando consulta: %s\n", sqlite3_errmsg(db));
-    }
-
-    sqlite3_finalize(stmt);
-    return false; // por si acaso sale algun problema en la base de datos
-}

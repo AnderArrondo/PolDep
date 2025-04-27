@@ -51,59 +51,63 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 //     printf("Selecione una opcion: ");
 // }
 
-void seleccion(sqlite3 *db) { //AÑADIR OPCION DE SALIDA AL MENU.
+void seleccion(sqlite3 *db) {
     int opcion = 0;
-    bool opcionValida = false;
+    bool salir = false;
     int maxValor = 5;
 
-    while (!opcionValida) {
-        printf("=========================================================\n");
-        printf("                 ADMINISTRAR USUARIOS                    \n");
-        printf("=========================================================\n");
-        printf("1. Ver todos los usuarios\n");
-        printf("2. Agregar nuevo usuario\n");
-        printf("3. Eliminar usuario\n");
-        printf("4. Modificar usuario\n");
-        //5, salir
-        printf("----------------------\n");
-        printf("Seleccione una opción: ");
-        scanf("%d", &opcion);
+    while (!salir) {
+        bool opcionValida = false;
+        while (!opcionValida) {
+            system("cls");
+            printf("=========================================================\n");
+            printf("                 ADMINISTRAR USUARIOS                    \n");
+            printf("=========================================================\n");
+            printf("1. Ver todos los usuarios\n");
+            printf("2. Agregar nuevo usuario\n");
+            printf("3. Eliminar usuario\n");
+            printf("4. Modificar usuario\n");
+            printf("5. Salir del menú\n");
+            printf("---------------------------------------------------------\n");
+            validarInputMenu(maxValor, &opcion, &opcionValida);
+        }
 
-        validarInputMenu(maxValor, &opcion, &opcionValida);
+        switch (opcion) {
+            case 1:
+                printf("Mostrando todos los usuarios...\n");
+                mostrarUsuarios(db);
+                break;
+            case 2:
+                printf("Agregando nuevo usuario...\n");
+                menuRegistro(db);
+                break;
+            case 3:
+                printf("Eliminando un usuario...\n");
+                eliminarUsuario(db);
+                break;
+            case 4:
+                printf("Modificando un usuario...\n");
+                modificarUsuario(db);
+                break;
+            case 5:
+                printf("Saliendo del menú de administración de usuarios...\n");
+                salir = true;
+                break;
+            default:
+                printf("Opción no válida. Inténtalo de nuevo.\n");
+                break;
+        }
+
+        if (!salir) {
+            printf("\nPresione Enter para continuar...");
+            liberarBuffer();
+            getchar();
+        }
     }
-
-    if (opcion == 1) {
-        printf("Mostrando todos los usuarios...\n");
-        mostrarUsuarios(db); //ESTA FUNCION HAY QUE HACERLA
-    } 
-    else if (opcion == 2) {
-        printf("Agregando nuevo usuario...\n");
-        menuRegistro(db); 
-    } 
-    else if (opcion == 3) {
-        printf("Eliminando un usuario...\n");
-        eliminarUsuario(db); //ESTA FUNCION HAY QUE HACERLA
-    } 
-    else if (opcion == 4) {
-        printf("Modificando un usuario...\n");
-        modificarUsuario(db); //ESTA FUNCION HAY QUE HACERLA
-    } 
-    else {
-        printf("Selecciona una opción válida.\n");
-    }
 }
 
-void mostrarUsuarios(sqlite3 *db) {
 
-}
 
-void eliminarUsuario(sqlite3 *db) {
-
-}
-
-void modificarUsuario(sqlite3 *db) {
-
-}
 
 
 void menuRegistro(sqlite3 *db){
@@ -293,22 +297,12 @@ void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
         }
 
         if(*opcionElegida == 1) {
-            char *estado = malloc(15 * sizeof(char));
-
-            printf("Introduzca una jurisdicción: ");
-            fgets(estado, 15, stdin);
-            printf("\n");
-
-            mostrarDelincuenciaPorEstado(db, estado);
-
-            free(estado);
-            estado = NULL;
+            // Datos por estado
+            mostrarListaCriminales(db);
         } else if(*opcionElegida == 2) {
             // Datos por año
-            mostrarDelincuenciaPorAnyo(db, 0);
         } else if(*opcionElegida == 3) {
             // Informe de delincuencia
-            // informeDelincuencia();
         } else {
             // salir
             salir = true;
@@ -335,7 +329,6 @@ void opcionEstadisticas(int *opcionElegida, sqlite3 *db) {
             // Información sobre prisioneros
         } else if(*opcionElegida == 3) {
             // Información sobre delincuencia
-            opcionDelincuencia(opcionElegida, db);
         } else {
             // salir
             salir = true;
