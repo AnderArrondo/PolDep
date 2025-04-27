@@ -3,7 +3,7 @@
 #define CRIMINAL_H
 typedef struct{
     char *nombre;
-    char *apelido;
+    char *apellido;
     int edad;
     char *genero;
     char *ciudadNacimiento;

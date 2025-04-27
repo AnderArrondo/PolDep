@@ -266,7 +266,7 @@ int mostrarListaCriminales(sqlite3 *db) {
 	int id, result;
 	Criminal c;
 	c.nombre = malloc(20 * sizeof(char));
-	c.apelido = malloc(20 * sizeof(char));
+	c.apellido = malloc(20 * sizeof(char));
 	c.genero = malloc(sizeof(char));
 	c.ciudadNacimiento = malloc(25 * sizeof(char));
 	c.estadoCivil = malloc(15 * sizeof(char));
@@ -286,7 +286,7 @@ int mostrarListaCriminales(sqlite3 *db) {
 		if (result == SQLITE_ROW) {
 			id = sqlite3_column_int(stmt, 0);
 			strcpy(c.nombre, (char *) sqlite3_column_text(stmt, 1));
-			strcpy(c.apelido, (char *) sqlite3_column_text(stmt, 2));
+			strcpy(c.apellido, (char *) sqlite3_column_text(stmt, 2));
 			c.edad = sqlite3_column_int(stmt, 3);
 			strcpy(c.genero, (char *) sqlite3_column_text(stmt, 4));
 			strcpy(c.ciudadNacimiento, (char *) sqlite3_column_text(stmt, 5));
@@ -304,15 +304,14 @@ int mostrarListaCriminales(sqlite3 *db) {
 	}
 
 	free(c.nombre);
-	free(c.apelido);
+	free(c.apellido);
 	free(c.genero);
 	free(c.ciudadNacimiento);
 	free(c.estadoCivil);
 
 	return SQLITE_OK;
 }
-#include <stdio.h>
-#include <sqlite3.h>
+
 
 int insertUsuario(sqlite3 *db, char *username, char *password) {
     sqlite3_stmt *stmt;
@@ -325,7 +324,6 @@ int insertUsuario(sqlite3 *db, char *username, char *password) {
         return result;
     }
 
-    // Vincular los valores a las interrogantes (?)
     sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 2, password, -1, SQLITE_STATIC);
 

@@ -11,7 +11,8 @@ void menuRegistro();
 void printMenuBD();
 void bdMenuRegistro(int *opcion);
 void menuRegistro();
-Crimen registrarCrimen();
+void registrarCrimen(sqlite3 *db);
 void opcionEstadisticas(int *, sqlite3 db);
+void menuRegistro(db);
 
 #endif
