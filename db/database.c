@@ -88,7 +88,7 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 
     sqlite3_stmt *stmt;
 
-	char sqlCriminal[] = "Insert into Criminal (id, nombre, apellido, edad, genero, ciudadNacimiento, estadoCivil) values (?, ?, ?, ?, ?, ?, ?, ?)";
+	char sqlCriminal[] = "Insert into Criminal (nombre, apellido, edad, genero, ciudadNacimiento, estadoCivil) values (?, ?, ?, ?, ?, ?, ?)";
 
     int result = sqlite3_prepare_v2(db, sqlCriminal, -1, &stmt, NULL) ;
 
@@ -99,6 +99,54 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	}
 
     printf("SQL query prepared (INSERT)\n");
+
+	char *nombre = crimen.autor->nombre;
+	result = sqlite3_bind_text(stmt, 1, nombre, strlen(nombre), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	char *apellido = crimen.autor->apellido;
+	result = sqlite3_bind_text(stmt, 2, apellido, strlen(apellido), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	int edad = crimen.autor->edad;
+	result = sqlite3_bind_int(stmt, 3, edad);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	char *genero = crimen.autor->genero;
+	result = sqlite3_bind_text(stmt, 4, genero, strlen(genero), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	char *ciudadDeNacimiento = crimen.autor->ciudadNacimiento;
+	result = sqlite3_bind_text(stmt, 5, ciudadDeNacimiento, strlen(ciudadDeNacimiento), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	char *estadoCivil = crimen.autor->estadoCivil;
+	result = sqlite3_bind_text(stmt, 6, estadoCivil, strlen(estadoCivil), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
     result = sqlite3_step(stmt);
 	if (result != SQLITE_DONE) {
@@ -116,8 +164,8 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	printf("Prepared statement finalized (INSERT)\n");
 
 	//////
-	int idCriminal = get_last_inserted_id(db);
-    char sqlCrimen[] = "Insert into Crimen (id, anyo, descripcion, idCriminal) values (NULL, ?, ?, ?, ?)";
+	
+    char sqlCrimen[] = "Insert into Crimen (anyo, descripcion, idCriminal) values (?, ?, ?)";
 
     result = sqlite3_prepare_v2(db, sqlCrimen, -1, &stmt, NULL) ;
 
@@ -128,6 +176,30 @@ int insertNewCrime(sqlite3 *db, Crimen crimen){
 	}
 
     printf("SQL query prepared (INSERT)\n");
+
+	int aino = crimen.aino;
+	result = sqlite3_bind_int(stmt, 1, aino);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	char *descripcion = crimen.descripcion;
+	result = sqlite3_bind_text(stmt, 2, descripcion, strlen(descripcion), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	int idCriminal = get_last_inserted_id(db);
+	result = sqlite3_bind_int(stmt, 3, idCriminal);
+	if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
     result = sqlite3_step(stmt);
 	if (result != SQLITE_DONE) {
