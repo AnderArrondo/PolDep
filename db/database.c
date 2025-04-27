@@ -37,6 +37,7 @@ int insert_data(sqlite3 *db, char *csv_line, int id) {
 			sqlite3_bind_int(stmt, i, value);
 		}
         token = strtok(NULL, ",");
+		printf("%s ", token);
     }
 
 	result = sqlite3_step(stmt);
@@ -441,7 +442,7 @@ int mostrarDelincuenciaPorEstado(sqlite3 *db, char *estado) {
 		return result;
 	}
 
-	result = sqlite3_bind_text(stmt, 1, estado, -1, SQLITE_TRANSIENT);
+	result = sqlite3_bind_text(stmt, 1, estado, strlen(estado) - 1, SQLITE_TRANSIENT);
 	if(result != SQLITE_OK) {
 		printf("Error añadiendo parametros al statement (SELECT)\n");
 		printf("%s\n", sqlite3_errmsg(db));
@@ -677,10 +678,6 @@ void eliminarUsuario(sqlite3 *db) {
     }
 
     sqlite3_finalize(stmt);
-}
-
-void modificarUsuario(sqlite3 *db) {
-
 }
 
 bool verificarPolicia(sqlite3 *db, const char *nombre, const char *contrasena) {

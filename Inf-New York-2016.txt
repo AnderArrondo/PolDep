@@ -1,0 +1,18 @@
+===================================
+      INFORME DE DELINCUENCIA      
+===================================
+
+DATOS GENERALES
+Jurisdicción: New York
+Año: 2016
+
+Población: 19836286
+Estimación de crímenes: 50611
+Número de prisioneros 50611
+
+HISTOGRAMA POR TIPO DE CRIMEN
+Cada '#' representan 1000 unidades.
+     ASESINATOS: 
+    VIOLACIONES: ######
+          ROBOS: ######################
+   ASALTO.AGRAV: #############################################

@@ -54,7 +54,7 @@ void validarInputMenu(int maxValue, int *opcionElegida, bool *isValid) {
 void seleccion(sqlite3 *db) {
     int opcion = 0;
     bool salir = false;
-    int maxValor = 5;
+    int maxValor = 4;
 
     while (!salir) {
         bool opcionValida = false;
@@ -65,8 +65,7 @@ void seleccion(sqlite3 *db) {
             printf("1. Ver todos los usuarios\n");
             printf("2. Agregar nuevo usuario\n");
             printf("3. Eliminar usuario\n");
-            printf("4. Modificar usuario\n");
-            printf("5. Salir del menú\n");
+            printf("4. Salir del menú\n");
             printf("---------------------------------------------------------\n");
             validarInputMenu(maxValor, &opcion, &opcionValida);
         }
@@ -82,9 +81,6 @@ void seleccion(sqlite3 *db) {
                 break;
             case 3:
                 eliminarUsuario(db);
-                break;
-            case 4:
-                modificarUsuario(db);
                 break;
             default:
                 salir = true;
@@ -307,7 +303,12 @@ void opcionDelincuencia(int *opcionElegida, sqlite3 *db) {
 
         if(*opcionElegida == 1) {
             // Datos por estado
-            mostrarListaCriminales(db);
+            char estado[100];
+
+            printf("Introduzca un estado: ");
+            fgets(estado, 100, stdin);
+            printf("\n");
+            mostrarDelincuenciaPorEstado(db, estado);
         } else if(*opcionElegida == 2) {
             // Datos por año
             int anyo;
