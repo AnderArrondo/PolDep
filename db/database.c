@@ -222,7 +222,7 @@ int mostrarPrisionesPorAino(sqlite3 *db, int aino){
         return SQLITE_ERROR;
     }
 
-	sprintf(sqlPrision, "select jurisdiccion, incluyeCarcel, \"%d\" from Prision where \"%d\" > 0;", aino, aino);
+	sprintf(sqlPrision, "select jurisdiccion, incluyeCarcel, \"%d\" from Prision", aino);
 
 	int result = sqlite3_prepare_v2(db, sqlPrision, -1, &stmt, NULL) ;
 	if (result != SQLITE_OK) {
