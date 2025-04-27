@@ -18,5 +18,8 @@ int mostrarDelincuenciaPorAnyo(sqlite3 *, int);
 int mostrarDelincuenciaPorEstado(sqlite3 *, char *);
 int informeDelincuencia(sqlite3 *, char *, int);
 
+void mostrarUsuarios(sqlite3 *db);
+void eliminarUsuario(sqlite3 *db);
+void modificarUsuario(sqlite3 *db);
 
 #endif
