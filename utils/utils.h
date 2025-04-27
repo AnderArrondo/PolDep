@@ -10,7 +10,7 @@ void seleccion(int opcion);
 void printMenuRegistro();
 void menuRegistro();
 void printMenuBD();
-void bdMenuRegistro(int *opcion);
+void bdMenuRegistro(int *opcion, sqlite3 *db);
 void opcionEstadisticas(int *, sqlite3 *db);
 char *histStr(int, char);
 void menuRegistro();
