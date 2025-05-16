@@ -38,4 +38,48 @@ int main() {
         WSACleanup();
         return 1;
     }
+
+
+    string username, msg;
+
+        cout << "=========================" << endl;
+        cout << "     SIMPLE CHAT APP     " << endl;
+        cout << "=========================" << endl << endl;
+        cout << "Connection established." << endl;
+        cout << "Introduce your username: ";
+        getline(cin, username);
+
+        cout << endl;
+
+        cout << "=========================" << endl << endl;
+
+        while(true) {
+            cout << username << ": ";
+            getline(cin, msg);
+            if(msg == "q") {
+                shutdown(clientSocket, SD_SEND);
+                break;
+            }
+
+            msg = username + ": " + msg;
+
+            send(clientSocket, msg.c_str(), msg.length(), 0);
+            memset(buffer, 0, BUFFER_SIZE);
+
+            int bytesReceived = recv(clientSocket, buffer, BUFFER_SIZE, 0);
+            if(bytesReceived == 0) {
+                cout << "Connection closed by peer." << endl;
+                break;
+            } else if(bytesReceived < 0) {
+                cerr << "Reception failed." << endl;
+                break;
+            }
+            buffer[bytesReceived] = '\0';
+
+            cout << buffer << endl;
+        }
+
+        closesocket(clientSocket);
+        WSACleanup();
+        return 0;
 }
